@@ -3,6 +3,15 @@ const app = express();
 const os = require('os');
 const dns = require('dns');
 const process = require('process');
+const path = require('path');
+
+// const htmlPath = path.join(`${__dirname}`, 'html');
+
+app.use(express.static(`${__dirname}/static`));
+app.get('/', (req, res)=>
+  res
+      .status(200)
+      .sendFile(`${__dirname}/static/index.html`));
 
 app.get('/os_info', (req, res)=>{
   const {COMPUTERNAME, USERNAME} = process.env;
