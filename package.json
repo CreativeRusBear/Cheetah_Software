@@ -1,5 +1,5 @@
 {
-  "name": "gepard",
+  "name": "Cheetah",
   "version": "1.0.0",
   "description": "Get more data about your PC",
   "main": "index.js",
@@ -9,13 +9,15 @@
   "author": "Artem Gusev <gusev2014russia@mail.ru> (CreativeRusBear)",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "prettier": "prettier --write static/**/*.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "systeminformation": "^4.14.8"
   },
   "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-google": "^0.14.0",
     "prettier": "^1.18.2"
   }
 }
