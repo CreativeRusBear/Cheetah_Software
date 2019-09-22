@@ -1,25 +1,53 @@
 const express = require('express');
 const app = express();
-const os = require('os');
-const dns = require('dns');
+// const dns = require('dns');
 const process = require('process');
+const path=require('path');
 
-app.get('/os_info', (req, res)=>{
-  const {COMPUTERNAME, USERNAME} = process.env;
-  const platform = process.platform;
-  const relese = os.release();
-  const type = os.type();
+/**
+ * @summary Pug settings
+ */
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, '/public/views'));
+
+app.use(express.static(`${__dirname}/public`));
+
+/**
+ * @summary data for main page
+ */
+app.get('/', (req, res)=> {
+  const template = require('./lib/template');
+  res.render('index', {
+    title: 'Cheetah Software',
+    slogan: 'Get more data about your PC',
+    blocks: template,
+  });
 });
 
-app.get('/net_info', (req, res)=>{
-  const netInfo = os.networkInterfaces().Ethernet;
-  const ipv6Index = netInfo.findIndex((data)=>data.family === 'IPv6');
-  const ipv4Index = netInfo.findIndex((data)=>data.family === 'IPv4');
+/**
+ * @summary load data about your os
+ */
+app.get('/os', (req, res)=>{
+  const osInfo = require('./lib/os_info');
+  osInfo.generalInfo()
+      .then((e)=>{
+        res.render('os', {
+          title: 'OS',
+          slogan: 'Get data about your operating system',
+          data: e,
+        });
+      })
+      .catch((e)=>console.error(e));
+});
 
-  const ipv6 = {address: netInfo[ipv6Index].address};
-  const ipv4 = netInfo[ipv4Index];
-
-  const domain = process.env.USERDOMAIN;
+/**
+ * @summary load data about network
+ */
+app.get('/network', (req, res)=>{
+  const netInfo = require('./lib/net');
+  netInfo.netInterface().then((e)=>console.log(e));
+  netInfo.getStats();
+  netInfo.connection();
 });
 
 app.get('/processor_info', (req, res)=>{
@@ -29,6 +57,10 @@ app.get('/processor_info', (req, res)=>{
 app.get('/memory_info', (req, res)=>{
   const opTotalMem = os.totalmem();
   const opFreeMem = os.freemem();
+});
+
+app.get('/disks_info', (req, res)=>{
+  const disksInfo = require('./lib/disks');
 });
 
 app.listen(8000, ()=>{
