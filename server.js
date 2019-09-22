@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const os = require('os');
+// const os = require('os');
 const dns = require('dns');
 const process = require('process');
-const path = require('path');
+const osInfo = require('./lib/os_info');
 
 // const htmlPath = path.join(`${__dirname}`, 'html');
 
@@ -14,10 +14,7 @@ app.get('/', (req, res)=>
       .sendFile(`${__dirname}/static/index.html`));
 
 app.get('/os_info', (req, res)=>{
-  const {COMPUTERNAME, USERNAME} = process.env;
-  const platform = process.platform;
-  const relese = os.release();
-  const type = os.type();
+  osInfo.generalInfo().then(e=>console.log(e));
 });
 
 app.get('/net_info', (req, res)=>{
