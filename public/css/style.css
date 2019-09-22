@@ -55,6 +55,30 @@ section {
     width: 100%;
 }
 
-.article p{
+.article p, span{
     font-size: var(--small-text-size);
+}
+
+.capitalize{
+    text-transform: capitalize;
+}
+.info{
+    text-align: left;
+}
+.info p{
+    line-height: 32px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.os_article{
+    margin: 32px 0;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row-reverse;
+    align-items: center;
+}
+
+.os_article img {
+    width: 30%;
 }

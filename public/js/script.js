@@ -1,8 +1,9 @@
 /**
  * @summary Нажатие на article
  */
-on('body', 'click', '.article', (e) => {
+on('body', 'click', '.article',  (e) => {
   const { id } = e.path.find(elem=>elem.className === 'article');
+  window.location.href+=id;
 });
 
 /**

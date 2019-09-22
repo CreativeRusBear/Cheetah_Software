@@ -1,0 +1,17 @@
+extends head
+
+block title
+    title #{title}
+
+block content
+
+    include header
+    section
+        h3 Articles
+        div(class='articles')
+            each block in blocks
+                div(class='article' id=block.id)
+                    img(src=block.img alt=block.id)
+                    h5 #{block.title}
+                    p #{block.description}
+    script(src='js/script.js' type='module')
