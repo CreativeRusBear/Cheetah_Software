@@ -1,0 +1,13 @@
+extends head
+
+block title
+    title #{title}
+
+block content
+    include header
+    section
+        div(class='network_article')
+            div(class='info')
+                p Interface: #{data.iface}
+                p State: #{data.operstate}
+                p Interface name: #{data.ifaceName}
