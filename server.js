@@ -27,28 +27,40 @@ app.get('/', (req, res)=> {
 /**
  * @summary load data about your os
  */
-app.get('/os', (req, res)=>{
-  const osInfo = require('./lib/os_info');
-  osInfo.generalInfo()
-      .then((e)=>{
-        res.render('os', {
-          title: 'OS',
-          slogan: 'Get data about your operating system',
-          data: e,
-        });
-      })
-      .catch((e)=>console.error(e));
+app.get('/os', async (req, res)=>{
+  try {
+    const osInfo = require('./lib/os_info');
+    const data = await osInfo.generalInfo();
+    res.render('os', {
+      title: 'OS',
+      slogan: 'Get data about your operating system',
+      data,
+    });
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 /**
  * @summary load data about network
  */
-app.get('/network', (req, res)=>{
-  const netInfo = require('./lib/net');
-  netInfo.netInterface().then((e)=>console.log(e));
-  netInfo.getStats();
-  netInfo.connection();
+app.get('/network', async (req, res)=> {
+  try {
+    const netInfo = require('./lib/net');
+    const netIface = await netInfo.netInterface();
+    setInterval(async function() {
+      const stats = await netInfo.getStats();
+      res.render('network', {
+        title: 'Network',
+        slogan: 'Get data about ip address, mask and etc.',
+        data: {...netIface, ...stats},
+      });
+    }, 5000);
+  } catch (e) {
+    console.error(e);
+  }
 });
+
 
 app.get('/processor_info', (req, res)=>{
   const {NUMBER_OF_PROCESSORS, PROCESSOR_ARCHITECTURE, PROCESSOR_IDENTIFIER} = process.env;
