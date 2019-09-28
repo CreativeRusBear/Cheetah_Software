@@ -8,6 +8,33 @@ block content
     section
         div(class='network_article')
             div(class='info')
-                p Interface: #{data.iface}
-                p State: #{data.operstate}
-                p Interface name: #{data.ifaceName}
+                div(class='net_interface')
+                    img(src='img/articles/net/undraw_server_down_s4lk.svg' alt='Net Interface')
+                    div(class='content')
+                        p Interface: #{data.iface}
+                        p State: #{data.operstate}
+                        p Interface name: #{data.ifaceName}
+                        p IPv4 address: #{data.ipv4}
+                        p IPv6 address: #{data.ipv6}
+                        p MAC address: #{data.mac}
+                        p Type of network connection: #{data.type}
+
+                div(class='stats')
+                    div(class='rx')
+                        p(id='rx_bytes') Received bytes overall: #{data.rx_bytes}
+                        p(id='rx_dropped') Received dropped overall: #{data.rx_dropped}
+                        p(id='rx_errors') Received errors overall): #{data.rx_errors}
+                        p(id='rx_sec') Received bytes / second: #{data.rx_sec}
+                    img(src='img/articles/net/undraw_hacker_mind_6y85.svg' alt='Statistic')
+                    div(class='tx')
+                        p(id='tx_bytes') Transferred bytes overall: #{data.tx_bytes}
+                        p(id='tx_dropped') Transferred dropped overall: #{data.tx_dropped}
+                        p(id='tx_errors') Transferred errors overall: #{data.tx_errors}
+                        p(id='tx_sec') Transferred bytes per second : #{data.rx_sec}
+
+    script(src="/socket.io/socket.io.js")
+    script.
+      const socket = io('/network');
+      socket.on('network_stats', data => {
+        console.log(data);
+      });
