@@ -67,20 +67,22 @@ app.get('/network', async (req, res) => {
  */
 app.get('/disks', async (req, res) => {
   try {
-    const disksInfo = require('./lib/disks');
-    const structure = await disksInfo.physicalDiskStructure();
+    const template = require('./lib/disk_template');
+    // const disksInfo = require('./lib/disks');
+    // const structure = await disksInfo.physicalDiskStructure();
     // const disks = io.of('/disks');
+    // setInterval(async ()=>
+    //   disks.emit('disks_stats', await disksInfo.physicalDiskStructure()), 2500);
+
     res.render('disks', {
       title: 'Disks',
       slogan: 'Get all data disk structure and etc.',
-      data: structure,
+      data: template,
     });
   } catch (e) {
     console.error(e);
   }
 });
-
-
 
 
 app.get('/processor_info', (req, res) => {
@@ -94,7 +96,7 @@ app.get('/memory_info', (req, res) => {
 
 app.get('/disks_info', (req, res) => {
   const disksInfo = require('./lib/disks');
-  disksInfo
+  disksInfo;
 });
 
 http.listen(8000, () => {
