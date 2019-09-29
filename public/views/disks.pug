@@ -1,0 +1,15 @@
+extends head
+
+block title
+    title #{title}
+
+block content
+    include header
+    section
+        div(class='disks_article')
+            div(class='info')
+                each val, prop in data
+                    p
+                        span(class='capitalize') #{prop}:
+                        span #{val}
+            img(src="img/articles/os/undraw_online_wishes_dlmr.svg" alt="os")

@@ -21,20 +21,31 @@ block content
 
                 div(class='stats')
                     div(class='rx')
-                        p(id='rx_bytes') Received bytes overall: #{data.rx_bytes}
-                        p(id='rx_dropped') Received dropped overall: #{data.rx_dropped}
-                        p(id='rx_errors') Received errors overall): #{data.rx_errors}
-                        p(id='rx_sec') Received bytes / second: #{data.rx_sec}
-                    img(src='img/articles/net/undraw_hacker_mind_6y85.svg' alt='Statistic')
+                        p Received megabytes overall:
+                            span(id='rx_bytes') #{data.rx_bytes}
+                        p Received dropped overall:
+                            span(id='rx_dropped') #{data.rx_dropped}
+                        p Received errors overall:
+                            span(id='rx_errors') #{data.rx_errors}
+                        p Received megabytes / second:
+                            span(id='rx_sec') #{data.rx_sec}
+                    img(src='img/articles/net/undraw_hacker_mind_6y85.svg' alt='statistic' id='stats')
                     div(class='tx')
-                        p(id='tx_bytes') Transferred bytes overall: #{data.tx_bytes}
-                        p(id='tx_dropped') Transferred dropped overall: #{data.tx_dropped}
-                        p(id='tx_errors') Transferred errors overall: #{data.tx_errors}
-                        p(id='tx_sec') Transferred bytes per second : #{data.rx_sec}
+                        p Transferred megabytes overall:
+                            span(id='tx_bytes') #{data.tx_bytes}
+                        p Transferred dropped overall:
+                            span(id='tx_dropped') #{data.tx_dropped}
+                        p Transferred errors overall:
+                            span(id='tx_errors') #{data.tx_errors}
+                        p Transferred megabytes / second :
+                            span(id='tx_sec') #{data.rx_sec}
 
     script(src="/socket.io/socket.io.js")
     script.
       const socket = io('/network');
-      socket.on('network_stats', data => {
-        console.log(data);
+      socket.on('network_stats', stats => {
+        for (let prop in stats){
+            const elem = document.getElementById(prop);
+            if (elem) elem.textContent = stats[prop];
+        }
       });

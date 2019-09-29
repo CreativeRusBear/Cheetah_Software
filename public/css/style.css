@@ -65,7 +65,7 @@ p, span{
 .info{
     text-align: left;
 }
-.info p{
+.info p, .rx p, .tx p{
     line-height: 32px;
     display: flex;
     justify-content: space-between;
@@ -91,3 +91,9 @@ p, span{
     display: flex;
     justify-content: space-around;
 }
+
+.rx, .tx, #stats{
+    width: 30%;
+}
+
+

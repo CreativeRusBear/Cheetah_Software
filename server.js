@@ -48,9 +48,9 @@ app.get('/os', async (req, res) => {
 app.get('/network', async (req, res) => {
   try {
     const netInfo = require('./lib/net');
-    const nsp = io.of('/network');
+    const net = io.of('/network');
     setInterval(async ()=>
-      nsp.emit('network_stats', await netInfo.getStats()), 1000);
+      net.emit('network_stats', await netInfo.getStats()), 2500);
 
     res.render('network', {
       title: 'Network',
@@ -61,6 +61,26 @@ app.get('/network', async (req, res) => {
     console.error(e);
   }
 });
+
+/**
+ * @summary load disks data
+ */
+app.get('/disks', async (req, res) => {
+  try {
+    const disksInfo = require('./lib/disks');
+    const structure = await disksInfo.physicalDiskStructure();
+    // const disks = io.of('/disks');
+    res.render('disks', {
+      title: 'Disks',
+      slogan: 'Get all data disk structure and etc.',
+      data: structure,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+
 
 
 app.get('/processor_info', (req, res) => {
@@ -74,6 +94,7 @@ app.get('/memory_info', (req, res) => {
 
 app.get('/disks_info', (req, res) => {
   const disksInfo = require('./lib/disks');
+  disksInfo
 });
 
 http.listen(8000, () => {
