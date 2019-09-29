@@ -55,7 +55,7 @@ section {
     width: 100%;
 }
 
-.article p, span{
+p, span{
     font-size: var(--small-text-size);
 }
 
@@ -65,13 +65,13 @@ section {
 .info{
     text-align: left;
 }
-.info p{
+.info p, .rx p, .tx p{
     line-height: 32px;
     display: flex;
     justify-content: space-between;
 }
 
-.os_article{
+.os_article, .net_interface, .stats{
     margin: 32px 0;
     display: flex;
     justify-content: space-around;
@@ -79,6 +79,21 @@ section {
     align-items: center;
 }
 
-.os_article img {
+.os_article img,.network_article img{
     width: 30%;
 }
+
+.stats{
+    margin-top: calc(32px * 2)
+}
+
+.net_interface{
+    display: flex;
+    justify-content: space-around;
+}
+
+.rx, .tx, #stats{
+    width: 30%;
+}
+
+
