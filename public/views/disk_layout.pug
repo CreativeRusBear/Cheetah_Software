@@ -1,0 +1,45 @@
+extends head_for_deep_file_location
+
+block title
+    title #{title}
+
+block content
+
+    header
+        div(class='slogan')
+            h2 #{title}
+            p #{slogan}
+        img(src='../img/logo/undraw_financial_data_es63.svg' alt='logo')
+    section(class='disk_article')
+        each disk in data
+            div(class='disk_info')
+                div(class='content')
+                    p Type:
+                        span #{disk.type}
+                    p Name:
+                        span #{disk.name}
+                    p Serial number:
+                        span #{disk.serialNum}
+                    p Interface type:
+                        span #{disk.interfaceType}
+                    p Size
+                        span #{disk.size} Gb
+                    p Total cylinders:
+                        span #{disk.totalCylinders}
+                    p Total heads:
+                        span #{disk.totalHeads}
+                    p Total tracks:
+                        span #{disk.totalTracks}
+                    p Total sectors:
+                        span #{disk.totalSectors}
+                    p Tracks per cylinder:
+                        span #{disk.tracksPerCylinder}
+                    p Sectors per track:
+                        span #{disk.sectorsPerTrack}
+                    p Bytes per sector:
+                        span #{disk.bytesPerSector}
+                    p Firmware revision:
+                        span #{disk.firmwareRevision}
+                    if disk.smartStatus
+                        p(class='necessary_text') Has S.M.A.R.T technology
+                img(src='../img/articles/disks/files_and_folder.svg' alt='Disk')

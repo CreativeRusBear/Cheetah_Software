@@ -4,6 +4,13 @@ block title
     title #{title}
 
 block content
+
     include header
     section
-        div(class='disks_article')
+        h3 Articles
+        div(class='articles')
+            each block in blocks
+                div(class='article' id=block.id)
+                    img(src=block.img alt=block.id)
+                    h5 #{block.title}
+    script(src='js/script.js' type='module')

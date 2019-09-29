@@ -62,10 +62,12 @@ p, span{
 .capitalize{
     text-transform: capitalize;
 }
+
 .info{
     text-align: left;
 }
-.info p, .rx p, .tx p{
+
+.info p, .rx p, .tx p, .disk_info p{
     line-height: 32px;
     display: flex;
     justify-content: space-between;
@@ -73,13 +75,16 @@ p, span{
 
 .os_article, .net_interface, .stats{
     margin: 32px 0;
+}
+
+.os_article, .net_interface, .stats, .disk_info{
     display: flex;
     justify-content: space-around;
     flex-flow: row-reverse;
     align-items: center;
 }
 
-.os_article img,.network_article img{
+.os_article img,.network_article img, .disk_info img{
     width: 30%;
 }
 
@@ -92,8 +97,18 @@ p, span{
     justify-content: space-around;
 }
 
-.rx, .tx, #stats{
+.rx, .tx, #stats, .disk_info .content{
     width: 30%;
 }
 
+.disk_article{
+    display: block;
+    margin: auto;
+}
 
+.necessary_text{
+    margin-top: 12px;
+    font-size: var(--standard-text-size);
+    font-weight: bold;
+    color: var(--turquoise-color);
+}

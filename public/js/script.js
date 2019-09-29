@@ -1,9 +1,14 @@
 /**
  * @summary Нажатие на article
  */
-on('body', 'click', '.article',  (e) => {
-  const { id } = e.path.find(elem=>elem.className === 'article');
-  window.location.href+=id;
+on('body', 'click', '.article', (e) => {
+  const {id} = e.path.find((elem)=>elem.className === 'article');
+
+  /**
+   * @summary is last char === '/'
+   * @type {string}
+   */
+  window.location.href += /\/+$/.test(window.location.href) ? id : `/${id}`;
 });
 
 /**

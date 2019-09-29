@@ -49,14 +49,14 @@ app.get('/network', async (req, res) => {
   try {
     const netInfo = require('./lib/net');
     const net = io.of('/network');
-    setInterval(async ()=>
-      net.emit('network_stats', await netInfo.getStats()), 2500);
 
     res.render('network', {
       title: 'Network',
       slogan: 'Get data about ip address, mask and etc.',
       data: {...await netInfo.netInterface(), ...await netInfo.getStats()},
     });
+    setInterval(async ()=>
+        net.emit('network_stats', await netInfo.getStats()), 2500);
   } catch (e) {
     console.error(e);
   }
@@ -68,16 +68,23 @@ app.get('/network', async (req, res) => {
 app.get('/disks', async (req, res) => {
   try {
     const template = require('./lib/disk_template');
-    // const disksInfo = require('./lib/disks');
-    // const structure = await disksInfo.physicalDiskStructure();
-    // const disks = io.of('/disks');
-    // setInterval(async ()=>
-    //   disks.emit('disks_stats', await disksInfo.physicalDiskStructure()), 2500);
-
     res.render('disks', {
       title: 'Disks',
       slogan: 'Get all data disk structure and etc.',
-      data: template,
+      blocks: template,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+app.get('/disks/disk_layout', async (req, res) =>{
+  try {
+    const disksInfo = require('./lib/disks');
+    res.render('disk_layout', {
+      title: 'Disks Layout',
+      slogan: 'Get data about physical disk layout',
+      data: await disksInfo.physicalDiskStructure(),
     });
   } catch (e) {
     console.error(e);
