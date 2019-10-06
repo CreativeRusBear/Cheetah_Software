@@ -56,14 +56,14 @@ app.get('/network', async (req, res) => {
       data: {...await netInfo.netInterface(), ...await netInfo.getStats()},
     });
     setInterval(async ()=>
-        net.emit('network_stats', await netInfo.getStats()), 2500);
+      net.emit('network_stats', await netInfo.getStats()), 2500);
   } catch (e) {
     console.error(e);
   }
 });
 
 /**
- * @summary load disks data
+ * @summary load disks section
  */
 app.get('/disks', async (req, res) => {
   try {
@@ -78,6 +78,9 @@ app.get('/disks', async (req, res) => {
   }
 });
 
+/**
+ * @summary load data about physical disk layout
+ */
 app.get('/disks/disk_layout', async (req, res) =>{
   try {
     const disksInfo = require('./lib/disks');
@@ -91,6 +94,41 @@ app.get('/disks/disk_layout', async (req, res) =>{
   }
 });
 
+/**
+ * @summary load data about disks, partitions, raids and roms
+ */
+app.get('/disks/block_devices', async (req, res) =>{
+  try {
+    const disksInfo = require('./lib/disks');
+    res.render('block_devices', {
+      title: 'Disks, partitions, raids and roms',
+      slogan: 'Get data about disks, partitions, raids and roms',
+      data: await disksInfo.dprrInfo(),
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+/**
+ * @summary load data about current file system
+ */
+app.get('/disks/transfer', async (req, res) =>{
+  try {
+    const disksInfo = require('./lib/disks');
+    const fsData = io.of('/transfer');
+    res.render('transfer', {
+      title: 'Current transfer stats',
+      slogan: 'Get current transfer stats of your disks',
+      data: await disksInfo.fsInfo(),
+    });
+    setInterval(async ()=>
+      fsData.emit('fs_data', await disksInfo.fsInfo()), 1000);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
 
 app.get('/processor_info', (req, res) => {
   const {NUMBER_OF_PROCESSORS, PROCESSOR_ARCHITECTURE, PROCESSOR_IDENTIFIER} = process.env;
@@ -99,11 +137,6 @@ app.get('/processor_info', (req, res) => {
 app.get('/memory_info', (req, res) => {
   const opTotalMem = os.totalmem();
   const opFreeMem = os.freemem();
-});
-
-app.get('/disks_info', (req, res) => {
-  const disksInfo = require('./lib/disks');
-  disksInfo;
 });
 
 http.listen(8000, () => {
