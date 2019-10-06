@@ -49,13 +49,29 @@ app.get('/network', async (req, res) => {
   try {
     const netInfo = require('./lib/net');
     const net = io.of('/network');
-    setInterval(async ()=>
-      net.emit('network_stats', await netInfo.getStats()), 2500);
 
     res.render('network', {
       title: 'Network',
       slogan: 'Get data about ip address, mask and etc.',
       data: {...await netInfo.netInterface(), ...await netInfo.getStats()},
+    });
+    setInterval(async ()=>
+      net.emit('network_stats', await netInfo.getStats()), 2500);
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+/**
+ * @summary load disks section
+ */
+app.get('/disks', async (req, res) => {
+  try {
+    const template = require('./lib/disk_template');
+    res.render('disks', {
+      title: 'Disks',
+      slogan: 'Get all data disk structure and etc.',
+      blocks: template,
     });
   } catch (e) {
     console.error(e);
@@ -63,22 +79,51 @@ app.get('/network', async (req, res) => {
 });
 
 /**
- * @summary load disks data
+ * @summary load data about physical disk layout
  */
-app.get('/disks', async (req, res) => {
+app.get('/disks/disk_layout', async (req, res) =>{
   try {
-    const template = require('./lib/disk_template');
-    // const disksInfo = require('./lib/disks');
-    // const structure = await disksInfo.physicalDiskStructure();
-    // const disks = io.of('/disks');
-    // setInterval(async ()=>
-    //   disks.emit('disks_stats', await disksInfo.physicalDiskStructure()), 2500);
-
-    res.render('disks', {
-      title: 'Disks',
-      slogan: 'Get all data disk structure and etc.',
-      data: template,
+    const disksInfo = require('./lib/disks');
+    res.render('disk_layout', {
+      title: 'Disks Layout',
+      slogan: 'Get data about physical disk layout',
+      data: await disksInfo.physicalDiskStructure(),
     });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+/**
+ * @summary load data about disks, partitions, raids and roms
+ */
+app.get('/disks/block_devices', async (req, res) =>{
+  try {
+    const disksInfo = require('./lib/disks');
+    res.render('block_devices', {
+      title: 'Disks, partitions, raids and roms',
+      slogan: 'Get data about disks, partitions, raids and roms',
+      data: await disksInfo.dprrInfo(),
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+/**
+ * @summary load data about current file system
+ */
+app.get('/disks/transfer', async (req, res) =>{
+  try {
+    const disksInfo = require('./lib/disks');
+    const fsData = io.of('/transfer');
+    res.render('transfer', {
+      title: 'Current transfer stats',
+      slogan: 'Get current transfer stats of your disks',
+      data: await disksInfo.fsInfo(),
+    });
+    setInterval(async ()=>
+      fsData.emit('fs_data', await disksInfo.fsInfo()), 2500);
   } catch (e) {
     console.error(e);
   }
@@ -92,11 +137,6 @@ app.get('/processor_info', (req, res) => {
 app.get('/memory_info', (req, res) => {
   const opTotalMem = os.totalmem();
   const opFreeMem = os.freemem();
-});
-
-app.get('/disks_info', (req, res) => {
-  const disksInfo = require('./lib/disks');
-  disksInfo;
 });
 
 http.listen(8000, () => {

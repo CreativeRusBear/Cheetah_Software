@@ -1,0 +1,46 @@
+extends head_for_deep_file_location
+
+block title
+    title #{title}
+
+block content
+
+    header
+        div(class='slogan')
+            h2 #{title}
+            p #{slogan}
+        img(src='../img/logo/undraw_financial_data_es63.svg' alt='logo')
+    section(class='disk_article disks')
+        each disk in data
+            div(class='disk_info')
+                div(class='content')
+                    p Name of file system:
+                        span #{disk.fs}
+                    if disk.type
+                        p Type of file system:
+                            span #{disk.type}
+                    if disk.size && disk.size != NaN
+                        p Size:
+                            span #{disk.size}
+                    if disk.used && disk.ued != NaN
+                        p Used:
+                            span(class='used') #{disk.used}
+                    if disk.use && disk.use != NaN
+                        p Use:
+                            span(class='use') #{disk.use}
+                if !disk.type
+                    img(src='../img/articles/disks/disk.svg' alt='Disk')
+                else
+                    img(src='../img/articles/disks/hd.svg' alt='HD')
+
+    script(src="/socket.io/socket.io.js")
+    script.
+      const socket = io('/transfer');
+      socket.on('fs_data', disks => {
+        for(let index = 0, length = disks.length; index<length; index++){
+            for (let prop in disks[index]){
+              const elem = document.getElementsByClassName(prop)[index];
+              if (elem) elem.textContent = disk[index][prop];
+            }
+        }
+      });
