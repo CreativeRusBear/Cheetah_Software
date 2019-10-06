@@ -37,10 +37,10 @@ block content
     script.
       const socket = io('/transfer');
       socket.on('fs_data', disks => {
-        disks.forEach((disk,index) => {
-            for (let prop in disk){
+        for(let index = 0, length = disks.length; index<length; index++){
+            for (let prop in disks[index]){
               const elem = document.getElementsByClassName(prop)[index];
-              if (elem) elem.textContent = disk[prop];
+              if (elem) elem.textContent = disk[index][prop];
             }
-        });
+        }
       });

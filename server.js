@@ -123,7 +123,7 @@ app.get('/disks/transfer', async (req, res) =>{
       data: await disksInfo.fsInfo(),
     });
     setInterval(async ()=>
-      fsData.emit('fs_data', await disksInfo.fsInfo()), 1000);
+      fsData.emit('fs_data', await disksInfo.fsInfo()), 2500);
   } catch (e) {
     console.error(e);
   }
