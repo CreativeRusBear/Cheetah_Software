@@ -1,3 +1,27 @@
+/**
+                 ____     __                        __              __
+                /\  _`\  /\ \                      /\ \__          /\ \
+                \ \ \/\_\\ \ \___       __      __ \ \ ,_\     __  \ \ \___
+                 \ \ \/_/_\ \  _ `\   /'__`\  /'__`\\ \ \/   /'__`\ \ \  _ `\
+                  \ \ \L\ \\ \ \ \ \ /\  __/ /\  __/ \ \ \_ /\ \L\.\_\ \ \ \ \
+                   \ \____/ \ \_\ \_\\ \____\\ \____\ \ \__\\ \__/.\_\\ \_\ \_\
+                    \/___/   \/_/\/_/ \/____/ \/____/  \/__/ \/__/\/_/ \/_/\/_/
+
+
+                  ____                 ___  __
+                 /\  _`\             /'___\/\ \__
+                 \ \,\L\_\     ___  /\ \__/\ \ ,_\  __  __  __     __     _ __    __
+                  \/_\__ \    / __`\\ \ ,__\\ \ \/ /\ \/\ \/\ \  /'__`\  /\`'__\/'__`\
+                    /\ \L\ \ /\ \L\ \\ \ \_/ \ \ \_\ \ \_/ \_/ \/\ \L\.\_\ \ \//\  __/
+                    \ `\____\\ \____/ \ \_\   \ \__\\ \___x___/'\ \__/.\_\\ \_\\ \____\
+                     \/_____/ \/___/   \/_/    \/__/ \/__//__/   \/__/\/_/ \/_/ \/____/
+ */
+
+
+
+
+
+
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -134,9 +158,15 @@ app.get('/processor_info', (req, res) => {
   const {NUMBER_OF_PROCESSORS, PROCESSOR_ARCHITECTURE, PROCESSOR_IDENTIFIER} = process.env;
 });
 
-app.get('/memory_info', (req, res) => {
-  const opTotalMem = os.totalmem();
-  const opFreeMem = os.freemem();
+/**
+ *
+ */
+app.get('/memory', (req, res) => {
+  try {
+    const mem = require('./lib/memory');
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 http.listen(8000, () => {
