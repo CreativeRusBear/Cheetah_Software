@@ -6,37 +6,37 @@ block title
 block content
     include templates/header_for_deep_file_location
     section(class='disk_article article_container')
-        each disk in data
-            div(class='disk_info detail_info')
+        each item in data
+            div(class='detail_info')
                 block block_template
                     div(class='content')
                         p Type:
-                            span #{disk.type}
+                            span #{item.type}
                         p Name:
-                            span #{disk.name}
+                            span #{item.name}
                         p Serial number:
-                            span #{disk.serialNum}
+                            span #{item.serialNum}
                         p Interface type:
-                            span #{disk.interfaceType}
+                            span #{item.interfaceType}
                         p Size:
-                            span #{disk.size} Gb
+                            span #{item.size} Gb
                         p Total cylinders:
-                            span #{disk.totalCylinders}
+                            span #{item.totalCylinders}
                         p Total heads:
-                            span #{disk.totalHeads}
+                            span #{item.totalHeads}
                         p Total tracks:
-                            span #{disk.totalTracks}
+                            span #{item.totalTracks}
                         p Total sectors:
-                            span #{disk.totalSectors}
+                            span #{item.totalSectors}
                         p Tracks per cylinder:
-                            span #{disk.tracksPerCylinder}
+                            span #{item.tracksPerCylinder}
                         p Sectors per track:
-                            span #{disk.sectorsPerTrack}
+                            span #{item.sectorsPerTrack}
                         p Bytes per sector:
-                            span #{disk.bytesPerSector}
+                            span #{item.bytesPerSector}
                         p Firmware revision:
-                            span #{disk.firmwareRevision}
-                        if disk.smartStatus
+                            span #{item.firmwareRevision}
+                        if item.smartStatus
                             p(class='necessary_text') Has S.M.A.R.T technology
                     img(src='../img/articles/disks/files_and_folder.svg' alt='Disk')
     block script

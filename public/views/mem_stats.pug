@@ -1,0 +1,25 @@
+extends net_stats
+block detail_data
+    p Total Memory:
+        span(id='total') #{data.total}
+    p Used Memory (incl. buffers/cache):
+        span(id='used') #{data.used}
+    p Used Actively (excl. buffers/cache):
+        span(id='active') #{data.active}
+    p Available Memory:
+        span(id='available') #{data.available}
+
+block article_img
+    img(src='../img/articles/memory/data_process.svg' alt='statistic')
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script.
+        const socket = io('/mem_stats');
+        socket.on('reload', stats => {
+            const statsArr = Object.entries(stats);
+            for (let index = 0, length = statsArr.length; index < length; index++) {
+                const elem = document.getElementById(statsArr[index][0]);
+                if (elem) elem.textContent = statsArr[index][1];
+            }
+        });

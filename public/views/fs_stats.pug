@@ -4,20 +4,20 @@ extends disk_layout
 block block_template
     div(class='content')
         p Name of file system:
-            span #{disk.fs}
-        if disk.type
+            span #{item.fs}
+        if item.type
             p Type of file system:
-                span #{disk.type}
-        if disk.size && disk.size != NaN
+                span #{item.type}
+        if item.size && item.size != NaN
             p Size:
-                span #{disk.size}
-        if disk.used && disk.ued != NaN
+                span #{item.size}
+        if item.used && item.used != NaN
             p Used:
-                span(class='used') #{disk.used}
-        if disk.use && disk.use != NaN
+                span(class='used') #{item.used}
+        if item.use && item.use != NaN
             p Use:
-                span(class='use') #{disk.use}
-    if !disk.type
+                span(class='use') #{item.use}
+    if !item.type
         img(src='../img/articles/disks/disk.svg' alt='Disk' style='width: 15%')
     else
         img(src='../img/articles/disks/hd.svg' alt='HD' style='width: 15%')

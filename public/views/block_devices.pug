@@ -2,21 +2,21 @@ extends disk_layout
 block block_template
     div(class='content')
         p Name:
-            span #{disk.name}
+            span #{item.name}
         p Type:
-            span #{disk.type}
-        if disk.fstype
+            span #{item.type}
+        if item.fstype
             p File system type:
-                span(class='upper') #{disk.fstype}
-        if disk.size
+                span(class='upper') #{item.fstype}
+        if item.size
             p Size:
-                span #{disk.size}
+                span #{item.size}
         p Physical type:
-            span #{disk.physical}
-        if disk.uuid
+            span #{item.physical}
+        if item.uuid
             p UUID:
-                span #{disk.uuid}
-    if disk.physical == 'CD/DVD'
+                span #{item.uuid}
+    if item.physical == 'CD/DVD'
         img(src='../img/articles/disks/disk.svg' alt='Disk' style='width: 15%')
     else
         img(src='../img/articles/disks/hd.svg' alt='HD' style='width: 15%')

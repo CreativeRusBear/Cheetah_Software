@@ -1,0 +1,18 @@
+extends disk_layout
+block block_template
+    div(class='content')
+        p Size:
+            span #{item.size}
+        p Type:
+            span #{item.type}
+        p Form factor:
+            span #{item.formFactor}
+        p Manufacturer:
+            span #{item.manufacturer}
+        p Part number:
+            span #{item.partNum}
+        p Serial number:
+            span #{item.serialNum}
+        p Memory bank:
+            span #{item.bank}
+    img(src='../img/articles/memory/ram.svg' alt='RAM')

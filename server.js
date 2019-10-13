@@ -204,17 +204,57 @@ app.get('/processor_info', (req, res) => {
 	const {NUMBER_OF_PROCESSORS, PROCESSOR_ARCHITECTURE, PROCESSOR_IDENTIFIER} = process.env;
 });
 
+
 /**
  * @summary render section about computer's memory
  */
-app.get('/memory', (req, res) => {
+
+app.get('/ram', (req, res) => {
 	try {
-		const template = require('./lib/templates/memory');
-		res.render('memory', {
-			title  : 'Memory',
+		const template = require('./lib/templates/ram');
+		res.render('ram', {
+			title  : 'RAM',
 			slogan : 'Get data about PC\'s memories',
 			blocks : template,
 		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary get data about memory
+ */
+
+app.get('/ram/mem_info', async (req, res) => {
+	try {
+		const mem = require('./lib/utils/ram');
+		res.render('mem_info', {
+			title  : 'Memories Information',
+			slogan : 'Get information about PC\'s memories',
+			data   : await mem.memInfo(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary get ram's statistic
+ */
+
+app.get('/ram/mem_stats', async (req, res) => {
+	try {
+		const mem = require('./lib/utils/ram');
+		const memStats = io.of('/mem_stats');
+		res.render('mem_stats', {
+			title  : 'RAM Statistic',
+			slogan : 'Get RAM statistic',
+			data   : await mem.memStats(),
+		});
+		setInterval(async () => memStats.emit('reload', await mem.memStats()), 2500);
 	} catch (e) {
 		console.error(e);
 	}
