@@ -260,6 +260,42 @@ app.get('/ram/mem_stats', async (req, res) => {
 	}
 });
 
+
+/**
+ * @summary Render section about cpu
+ */
+
+app.get('/cpu', (req, res) => {
+	try {
+		const template = require('./lib/templates/cpu');
+		res.render('cpu', {
+			title  : 'CPU',
+			slogan : 'Get data about your processor',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Get CPU's characteristics
+ */
+
+app.get('/cpu/cpu_info', async (req, res) => {
+	try {
+		const cpu = require('./lib/utils/cpu');
+		res.render('cpu_info', {
+			title  : 'CPU\'s Characteristics',
+			slogan : 'Find out what your processor is capable of',
+			data   : await cpu.cpuInfo(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
 http.listen(8000, () => {
 	console.log('Listen on http://127.0.0.1:8000');
 });

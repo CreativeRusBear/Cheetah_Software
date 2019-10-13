@@ -1,0 +1,35 @@
+extends net_interface
+block detail_data
+    p Manufacturer:
+        span #{data.manufacturer}
+    p Vendor ID:
+        span #{data.vendor}
+    p Family:
+        span #{data.family}
+    p Model:
+        span #{data.model}
+    p Stepping:
+        span #{data.stepping}
+    p Revision:
+        span #{data.revision}
+    p Speed:
+        span #{data.speed} GHz
+    if data.speedmin
+        p Min speed:
+            span #{data.speedmin} GHz
+    if data.speedmax
+        p Max speed:
+            span #{data.speedmax} GHz
+    p Cores:
+        span #{data.cores}
+    p Physical cores:
+        span #{data.physicalCores}
+    if data.cache
+        p(class='necessary_text' style='margin-top: 5%') CPU's cache:
+        each val,index in data.cache
+            if val
+                p #{index}:
+                    span #{val}
+
+block article_img
+    img(src='../img/articles/cpu/cpu.svg' alt='CPU')
