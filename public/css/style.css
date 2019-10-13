@@ -67,41 +67,32 @@ p, span{
     text-align: left;
 }
 
-.info p, .rx p, .tx p, .disk_info p{
+.info p, .detail_info p{
     line-height: 32px;
     display: flex;
     justify-content: space-between;
 }
 
-.os_article, .net_interface, .stats, .disk_info{
+.os_article, .detail_info{
     margin: 32px 0;
 }
 
-.os_article, .net_interface, .stats, .disk_info{
+.os_article, .detail_info{
     display: flex;
     justify-content: space-around;
     flex-flow: row-reverse;
     align-items: center;
 }
 
-.os_article img,.network_article img, .disk_info img{
+.os_article img, .detail_info > img{
     width: 30%;
 }
 
-.stats{
-    margin-top: calc(32px * 2)
-}
-
-.net_interface{
-    display: flex;
-    justify-content: space-around;
-}
-
-.rx, .tx, #stats, .disk_info .content{
+#stats, .detail_info .content{
     width: 30%;
 }
 
-.disk_article{
+.article_container{
     display: block;
     margin: auto;
 }
@@ -113,6 +104,3 @@ p, span{
     color: var(--turquoise-color);
 }
 
-.disks img{
-    width: 15%
-}

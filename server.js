@@ -20,8 +20,6 @@
 
 
 
-
-
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -29,19 +27,23 @@ const io = require('socket.io')(http);
 const process = require('process');
 const path = require('path');
 
+
 /**
  * @summary Pug settings
  */
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/public/views'));
 
 app.use(express.static(`${__dirname}/public`));
 
+
 /**
- * @summary data for main page
+ * @summary load section for main page
  */
+
 app.get('/', (req, res) => {
-	const template = require('./lib/templates/template');
+	const template = require('./lib/templates/main');
 	res.render('index', {
 		title  : 'Cheetah Software',
 		slogan : 'Get more data about your PC',
@@ -49,12 +51,14 @@ app.get('/', (req, res) => {
 	});
 });
 
+
 /**
  * @summary load data about your os
  */
+
 app.get('/os', async (req, res) => {
 	try {
-		const osInfo = require('./lib/utils/os_info');
+		const osInfo = require('./lib/utils/os');
 		const data = await osInfo.generalInfo();
 		res.render('os', {
 			title  : 'OS',
@@ -66,18 +70,52 @@ app.get('/os', async (req, res) => {
 	}
 });
 
+
 /**
- * @summary load data about network
+ * @summary load articles about network
  */
+
 app.get('/network', async (req, res) => {
+	const template = require('./lib/templates/net');
+	res.render('network', {
+		title  : 'Network',
+		slogan : 'Get data about ip address, mask and etc.',
+		blocks : template,
+	});
+});
+
+
+/**
+ * @summary load data about net interface
+ */
+
+app.get('/network/net_interface', async (req, res) => {
 	try {
 		const netInfo = require('./lib/utils/net');
-		const net = io.of('/network');
+		res.render('net_interface', {
+			title  : 'Network Interface',
+			slogan : 'Get data about network interface',
+			data   : await netInfo.netInterface(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
 
-		res.render('network', {
-			title  : 'Network',
-			slogan : 'Get data about ip address, mask and etc.',
-			data   : {...await netInfo.netInterface(), ...await netInfo.getStats()},
+
+/**
+ * @summary load network's stats
+ */
+
+app.get('/network/net_stats', async (req, res) => {
+	try {
+		const netInfo = require('./lib/utils/net');
+		const net = io.of('/network_stats');
+
+		res.render('net_stats', {
+			title  : 'Network Stats',
+			slogan : 'Get data about current network stats',
+			data   : await netInfo.getStats(),
 		});
 		setInterval(async () =>
 			net.emit('network_stats', await netInfo.getStats()), 2500);
@@ -86,12 +124,14 @@ app.get('/network', async (req, res) => {
 	}
 });
 
+
 /**
  * @summary load disks section
  */
+
 app.get('/disks', async (req, res) => {
 	try {
-		const template = require('./lib/templates/disk_template');
+		const template = require('./lib/templates/disk');
 		res.render('disks', {
 			title  : 'Disks',
 			slogan : 'Get all data disk structure and etc.',
@@ -102,9 +142,11 @@ app.get('/disks', async (req, res) => {
 	}
 });
 
+
 /**
  * @summary load data about physical disk layout
  */
+
 app.get('/disks/disk_layout', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
@@ -118,9 +160,11 @@ app.get('/disks/disk_layout', async (req, res) => {
 	}
 });
 
+
 /**
  * @summary load data about disks, partitions, raids and roms
  */
+
 app.get('/disks/block_devices', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
@@ -134,15 +178,17 @@ app.get('/disks/block_devices', async (req, res) => {
 	}
 });
 
+
 /**
- * @summary load data about current file system
+ * @summary load data about current file systems
  */
-app.get('/disks/transfer', async (req, res) => {
+
+app.get('/disks/fs_stats', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
-		const fsData = io.of('/transfer');
-		res.render('transfer', {
-			title  : 'Current transfer stats',
+		const fsData = io.of('/fs_stats');
+		res.render('fs_stats', {
+			title  : 'Current stats about file systems',
 			slogan : 'Get current transfer stats of your disks',
 			data   : await disksInfo.fsInfo(),
 		});
@@ -163,7 +209,7 @@ app.get('/processor_info', (req, res) => {
  */
 app.get('/memory', (req, res) => {
 	try {
-		const template = require('./lib/templates/memory_template');
+		const template = require('./lib/templates/memory');
 		res.render('memory', {
 			title  : 'Memory',
 			slogan : 'Get data about PC\'s memories',
