@@ -1,0 +1,36 @@
+extends disk_layout
+
+
+block block_template
+    div(class='content')
+        p Name of file system:
+            span #{item.fs}
+        if item.type
+            p Type of file system:
+                span #{item.type}
+        if item.size && item.size != NaN
+            p Size:
+                span #{item.size}
+        if item.used && item.used != NaN
+            p Used:
+                span(class='used') #{item.used}
+        if item.use && item.use != NaN
+            p Use:
+                span(class='use') #{item.use}
+    if !item.type
+        img(src='../img/articles/disks/disk.svg' alt='Disk' style='width: 15%')
+    else
+        img(src='../img/articles/disks/hd.svg' alt='HD' style='width: 15%')
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script.
+        const socket = io('/fs_stats');
+        socket.on('fs_data', disks => {
+            for (let index = 0, length = disks.length; index < length; index++) {
+                for (let prop in disks[index]) {
+                    const elem = document.getElementsByClassName(prop)[index];
+                    if (elem) elem.textContent = disks[index][prop];
+                }
+            }
+        });

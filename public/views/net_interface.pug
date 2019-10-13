@@ -1,0 +1,29 @@
+extends templates/head_for_deep_file_location
+
+block title
+    title #{title}
+
+block content
+    include templates/header_for_deep_file_location
+    section
+        div(class='article_container')
+            div(class='detail_info')
+                    div(class='content')
+                        block detail_data
+                            p Interface:
+                                span #{data.iface}
+                            p State:
+                                span #{data.operstate}
+                            p Interface name:
+                                span #{data.ifaceName}
+                            p IPv4 address:
+                                span #{data.ipv4}
+                            p IPv6 address:
+                                span #{data.ipv6}
+                            p MAC address:
+                                span #{data.mac}
+                            p Type of network connection:
+                                span #{data.type}
+                    block article_img
+                        img(src='../img/articles/net/undraw_server_down_s4lk.svg' alt='Net Interface')
+    block script

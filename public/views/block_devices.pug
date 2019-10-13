@@ -1,35 +1,22 @@
-extends head_for_deep_file_location
-
-block title
-    title #{title}
-
-block content
-
-    header
-        div(class='slogan')
-            h2 #{title}
-            p #{slogan}
-        img(src='../img/logo/undraw_financial_data_es63.svg' alt='logo')
-    section(class='disk_article disks')
-        each disk in data
-            div(class='disk_info')
-                div(class='content')
-                    p Name:
-                        span #{disk.name}
-                    p Type:
-                        span #{disk.type}
-                    if disk.fstype
-                        p File system type:
-                            span(class='upper') #{disk.fstype}
-                    if disk.size
-                        p Size:
-                            span #{disk.size}
-                    p Physical type:
-                        span #{disk.physical}
-                    if disk.uuid
-                        p UUID:
-                            span #{disk.uuid}
-                if disk.physical == 'CD/DVD'
-                    img(src='../img/articles/disks/disk.svg' alt='Disk')
-                else
-                    img(src='../img/articles/disks/hd.svg' alt='HD')
+extends disk_layout
+block block_template
+    div(class='content')
+        p Name:
+            span #{item.name}
+        p Type:
+            span #{item.type}
+        if item.fstype
+            p File system type:
+                span(class='upper') #{item.fstype}
+        if item.size
+            p Size:
+                span #{item.size}
+        p Physical type:
+            span #{item.physical}
+        if item.uuid
+            p UUID:
+                span #{item.uuid}
+    if item.physical == 'CD/DVD'
+        img(src='../img/articles/disks/disk.svg' alt='Disk' style='width: 15%')
+    else
+        img(src='../img/articles/disks/hd.svg' alt='HD' style='width: 15%')

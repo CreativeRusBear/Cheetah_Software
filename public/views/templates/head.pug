@@ -6,6 +6,8 @@ html(lang='en')
         meta(http-equiv='X-UA-Compatible' content='ie=edge')
         block title
         link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap&subset=cyrillic" rel="stylesheet')
-        link(rel='stylesheet' type='text/css' href='../css/style.css')
+        block styles
+            link(rel='stylesheet' type='text/css' href='css/style.css')
     body
         block content
+        //include footer
