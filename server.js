@@ -296,6 +296,46 @@ app.get('/cpu/cpu_info', async (req, res) => {
 	}
 });
 
+
+/**
+ * @summary Get CPU's speed characteristics
+ */
+
+app.get('/cpu/cpu_speed', async (req, res) => {
+	try {
+		const cpu = require('./lib/utils/cpu');
+		const speed = io.of('/cpu_speed');
+		res.render('cpu_speed', {
+			title  : ' CPU\'s speed',
+			slogan : 'Get real-time processor speed statistics',
+			data   : await cpu.cpuSpeed(),
+		});
+		setInterval(async () => speed.emit('reload', await cpu.cpuSpeed()), 2500);
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary
+ */
+
+app.get('/cpu/cpu_temperature', async (req, res) => {
+	try {
+		const cpu = require('./lib/utils/cpu');
+		const temperature = io.of('/cpu_temperature');
+		res.render('cpu_temperature', {
+			title  : 'CPU\'s temperature',
+			slogan : 'Get real-time processor temperature information',
+			data   : await cpu.cpuTemp(),
+		});
+		setInterval(async () => temperature.emit('reload', await cpu.cpuTemp()), 2500);
+	} catch (e) {
+		console.error(e);
+	}
+});
+
 http.listen(8000, () => {
 	console.log('Listen on http://127.0.0.1:8000');
 });
