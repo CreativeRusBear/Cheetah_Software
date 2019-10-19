@@ -4,22 +4,26 @@ block detail_data
         span #{data.manufacturer}
     p Vendor ID:
         span #{data.vendor}
-    p Family:
-        span #{data.family}
-    p Model:
-        span #{data.model}
-    p Stepping:
-        span #{data.stepping}
+    p Name:
+        span #{data.name}
+    p Caption:
+        span #{data.caption}
+    p Architecture:
+        span #{data.arch}
+    p Status:
+        span(id='status') #{data.status}
     p Revision:
         span #{data.revision}
     p Speed:
-        span #{data.speed} GHz
+        span(id='speed') #{data.speed}
     if data.speedmin
         p Min speed:
-            span #{data.speedmin} GHz
+            span(id='speedmin') #{data.speedmin}
     if data.speedmax
         p Max speed:
-            span #{data.speedmax} GHz
+            span(id='speedmax') #{data.speedmax}
+    p External clock speed:
+        span(id='extClockSpeed') #{data.extClockSpeed}
     p Cores:
         span #{data.cores}
     p Physical cores:
@@ -29,7 +33,29 @@ block detail_data
         each val,index in data.cache
             if val
                 p #{index}:
-                    span #{val}
+                    span(id=index) #{val}
 
 block article_img
     img(src='../img/articles/cpu/cpu.svg' alt='CPU')
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script.
+        const socket = io('/cpu_info');
+        socket.on('reload', stats => {
+            const statsArr = Object.entries(stats);
+            for(let index = 0, length = statsArr.length; index < length; index++) {
+                if (statsArr[index][1] instanceof Object) {
+                    for (const item in statsArr[index][1]) {
+                        findElemById(item, statsArr[index][1][item]);
+                    }
+                } else {
+                    findElemById(statsArr[index][0], statsArr[index][1]);
+                }
+            }
+        });
+
+        function findElemById(propName, result) {
+            const elem = document.getElementById(propName);
+            if (elem) elem.textContent = result;
+        }

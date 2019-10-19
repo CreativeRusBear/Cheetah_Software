@@ -1,22 +1,24 @@
-/**
- *  ____     __                        __              __
- * /\  _`\  /\ \                      /\ \__          /\ \
- * \ \ \/\_\\ \ \___       __      __ \ \ ,_\     __  \ \ \___
- *  \ \ \/_/_\ \  _ `\   /'__`\  /'__`\\ \ \/   /'__`\ \ \  _ `\
- *   \ \ \L\ \\ \ \ \ \ /\  __/ /\  __/ \ \ \_ /\ \L\.\_\ \ \ \ \
- *    \ \____/ \ \_\ \_\\ \____\\ \____\ \ \__\\ \__/.\_\\ \_\ \_\
- *     \/___/   \/_/\/_/ \/____/ \/____/  \/__/ \/__/\/_/ \/_/\/_/
+/*
+ *  $$$$$$\  $$\                            $$\               $$\
+ * $$  __$$\ $$ |                           $$ |              $$ |
+ * $$ /  \__|$$$$$$$\   $$$$$$\   $$$$$$\ $$$$$$\    $$$$$$\  $$$$$$$\
+ * $$ |      $$  __$$\ $$  __$$\ $$  __$$\\_$$  _|   \____$$\ $$  __$$\
+ * $$ |      $$ |  $$ |$$$$$$$$ |$$$$$$$$ | $$ |     $$$$$$$ |$$ |  $$ |
+ * $$ |  $$\ $$ |  $$ |$$   ____|$$   ____| $$ |$$\ $$  __$$ |$$ |  $$ |
+ * \$$$$$$  |$$ |  $$ |\$$$$$$$\ \$$$$$$$\  \$$$$  |\$$$$$$$ |$$ |  $$ |
+ *  \______/ \__|  \__| \_______| \_______|  \____/  \_______|\__|  \__|
  *
  *
- *  ____                 ___  __
- * /\  _`\             /'___\/\ \__
- * \ \,\L\_\     ___  /\ \__/\ \ ,_\  __  __  __     __     _ __    __
- *  \/_\__ \    / __`\\ \ ,__\\ \ \/ /\ \/\ \/\ \  /'__`\  /\`'__\/'__`\
- *    /\ \L\ \ /\ \L\ \\ \ \_/ \ \ \_\ \ \_/ \_/ \/\ \L\.\_\ \ \//\  __/
- *    \ `\____\\ \____/ \ \_\   \ \__\\ \___x___/'\ \__/.\_\\ \_\\ \____\
- *     \/_____/ \/___/   \/_/    \/__/ \/__//__/   \/__/\/_/ \/_/ \/____/
+ *
+ *  $$$$$$\             $$$$$$\    $$\
+ * $$  __$$\           $$  __$$\   $$ |
+ * $$ /  \__| $$$$$$\  $$ /  \__|$$$$$$\   $$\  $$\  $$\  $$$$$$\   $$$$$$\   $$$$$$\
+ * \$$$$$$\  $$  __$$\ $$$$\     \_$$  _|  $$ | $$ | $$ | \____$$\ $$  __$$\ $$  __$$\
+ *  \____$$\ $$ /  $$ |$$  _|      $$ |    $$ | $$ | $$ | $$$$$$$ |$$ |  \__|$$$$$$$$ |
+ * $$\   $$ |$$ |  $$ |$$ |        $$ |$$\ $$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|
+ * \$$$$$$  |\$$$$$$  |$$ |        \$$$$  |\$$$$$\$$$$  |\$$$$$$$ |$$ |      \$$$$$$$\
+ *  \______/  \______/ \__|         \____/  \_____\____/  \_______|\__|       \_______|
  */
-
 
 
 
@@ -75,7 +77,7 @@ app.get('/os', async (req, res) => {
  * @summary load articles about network
  */
 
-app.get('/network', async (req, res) => {
+app.get('/network', (req, res) => {
 	const template = require('./lib/templates/net');
 	res.render('network', {
 		title  : 'Network',
@@ -129,7 +131,7 @@ app.get('/network/net_stats', async (req, res) => {
  * @summary load disks section
  */
 
-app.get('/disks', async (req, res) => {
+app.get('/disks', (req, res) => {
 	try {
 		const template = require('./lib/templates/disk');
 		res.render('disks', {
@@ -286,11 +288,13 @@ app.get('/cpu', (req, res) => {
 app.get('/cpu/cpu_info', async (req, res) => {
 	try {
 		const cpu = require('./lib/utils/cpu');
+		const cpuInfo = io.of('/cpu_info');
 		res.render('cpu_info', {
 			title  : 'CPU\'s Characteristics',
 			slogan : 'Find out what your processor is capable of',
 			data   : await cpu.cpuInfo(),
 		});
+		setInterval(async () => cpuInfo.emit('reload', await cpu.cpuInfo()), 2500);
 	} catch (e) {
 		console.error(e);
 	}
@@ -316,27 +320,56 @@ app.get('/cpu/cpu_speed', async (req, res) => {
 	}
 });
 
-
-/**
- * @summary
- */
-
-app.get('/cpu/cpu_temperature', async (req, res) => {
+app.get('/graphics', (req, res) => {
 	try {
-		const cpu = require('./lib/utils/cpu');
-		const temperature = io.of('/cpu_temperature');
-		res.render('cpu_temperature', {
-			title  : 'CPU\'s temperature',
-			slogan : 'Get real-time processor temperature information',
-			data   : await cpu.cpuTemp(),
+		const template = require('./lib/templates/graphics.js');
+		res.render('graphics', {
+			title  : 'Graphics',
+			slogan : 'Get data about your graphics card and display',
+			blocks : template,
 		});
-		setInterval(async () => temperature.emit('reload', await cpu.cpuTemp()), 2500);
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+app.get('/graphics/gpu', async (req, res) => {
+	try {
+		const graphics = require('./lib/utils/graphics');
+		res.render('gpu', {
+			title  : 'GPU\'s Characteristics',
+			slogan : 'Find out what your graphics card is capable of',
+			data   : await graphics.controllersInfo(),
+		});
 	} catch (e) {
 		console.error(e);
 	}
 });
 
 http.listen(8000, () => {
-	console.log('Listen on http://127.0.0.1:8000');
+
+	console.log(`
+	 $$$$$$\\  $$\\                            $$\\               $$\\
+	$$  __$$\\ $$ |                           $$ |              $$ |            
+	$$ /  \\__|$$$$$$$\\   $$$$$$\\   $$$$$$\\ $$$$$$\\    $$$$$$\\  $$$$$$$\\        
+	$$ |      $$  __$$\\ $$  __$$\\ $$  __$$\\\\_$$  _|   \\____$$\\ $$  __$$\\       
+	$$ |      $$ |  $$ |$$$$$$$$ |$$$$$$$$ | $$ |     $$$$$$$ |$$ |  $$ |      
+	$$ |  $$\\ $$ |  $$ |$$   ____|$$   ____| $$ |$$\\ $$  __$$ |$$ |  $$ |      
+	\\$$$$$$  |$$ |  $$ |\\$$$$$$$\\ \\$$$$$$$\\  \\$$$$  |\\$$$$$$$ |$$ |  $$ |      
+	 \\______/ \\__|  \\__| \\_______| \\_______|  \\____/  \\_______|\\__|  \\__|
+	
+	
+	
+	 $$$$$$\\             $$$$$$\\    $$\\                                                 
+	$$  __$$\\           $$  __$$\\   $$ |                                                
+	$$ /  \\__| $$$$$$\\  $$ /  \\__|$$$$$$\\   $$\\  $$\\  $$\\  $$$$$$\\   $$$$$$\\   $$$$$$\\  
+	\\$$$$$$\\  $$  __$$\\ $$$$\\     \\_$$  _|  $$ | $$ | $$ | \\____$$\\ $$  __$$\\ $$  __$$\\ 
+	 \\____$$\\ $$ /  $$ |$$  _|      $$ |    $$ | $$ | $$ | $$$$$$$ |$$ |  \\__|$$$$$$$$ |
+	$$\\   $$ |$$ |  $$ |$$ |        $$ |$$\\ $$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|
+	\\$$$$$$  |\\$$$$$$  |$$ |        \\$$$$  |\\$$$$$\\$$$$  |\\$$$$$$$ |$$ |      \\$$$$$$$\\ 
+	 \\______/  \\______/ \\__|         \\____/  \\_____\\____/  \\_______|\\__|       \\_______|
+	`);
+	console.log(`Listen on: http://127.0.0.1:8000
+	   http://localhost:8000`);
 });
 

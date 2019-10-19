@@ -6,11 +6,13 @@ block detail_data
         span(id='min') #{data.min}
     p Max speed:
         span(id='max') #{data.max}
+    p Load:
+        span(id='loadPerc') #{data.loadPerc}
     if data.cores
         p(class='necessary_text' style='margin: 5% 0') CPU's cores speed:
         each val,index in data.cores
-            p Core #{index + 1}:
-                span(class='cores') #{val}
+            p #{val.model}:
+                span(class='cores') #{val.speed}
 
 block article_img
     img(src='../img/articles/cpu/speed-pc.svg' alt='speed')
