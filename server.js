@@ -320,6 +320,11 @@ app.get('/cpu/cpu_speed', async (req, res) => {
 	}
 });
 
+
+/**
+ * @summary Render section about Graphics
+ */
+
 app.get('/graphics', (req, res) => {
 	try {
 		const template = require('./lib/templates/graphics.js');
@@ -333,6 +338,10 @@ app.get('/graphics', (req, res) => {
 	}
 });
 
+
+/**
+ * @summary Get GPU's characteristics
+ */
 app.get('/graphics/gpu', async (req, res) => {
 	try {
 		const graphics = require('./lib/utils/graphics');
@@ -340,6 +349,24 @@ app.get('/graphics/gpu', async (req, res) => {
 			title  : 'GPU\'s Characteristics',
 			slogan : 'Find out what your graphics card is capable of',
 			data   : await graphics.controllersInfo(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Get Display's characteristics
+ */
+
+app.get('/graphics/display', async (req, res) => {
+	try {
+		const graphics = require('./lib/utils/graphics');
+		res.render('display', {
+			title  : 'Display\'s Characteristics',
+			slogan : 'Information about display (monitor)',
+			data   : await graphics.displaysInfo(),
 		});
 	} catch (e) {
 		console.error(e);
@@ -368,8 +395,10 @@ http.listen(8000, () => {
 	$$\\   $$ |$$ |  $$ |$$ |        $$ |$$\\ $$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|
 	\\$$$$$$  |\\$$$$$$  |$$ |        \\$$$$  |\\$$$$$\\$$$$  |\\$$$$$$$ |$$ |      \\$$$$$$$\\ 
 	 \\______/  \\______/ \\__|         \\____/  \\_____\\____/  \\_______|\\__|       \\_______|
+	
+	
+	Listen on: http://127.0.0.1:8000
+	           http://localhost:8000
 	`);
-	console.log(`Listen on: http://127.0.0.1:8000
-	   http://localhost:8000`);
 });
 

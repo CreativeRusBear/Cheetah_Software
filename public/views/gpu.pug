@@ -1,0 +1,15 @@
+extends disk_layout
+
+block block_template
+    div(class='content')
+        p Model:
+            span #{item.model}
+        p Vendor:
+            span #{item.vendor}
+        p BUS:
+            span #{item.bus}
+        p VRAM size:
+            span #{item.vram} Mb
+        if item.vramDynamic
+            p(class='necessary_text') Dynamicly allocated RAM
+    img(src='../img/articles/gpu/gpu.svg' alt='Graphic Card')
