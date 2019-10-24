@@ -45,12 +45,71 @@ app.use(express.static(`${__dirname}/public`));
  */
 
 app.get('/', (req, res) => {
-	const template = require('./lib/templates/main');
-	res.render('index', {
-		title  : 'Cheetah Software',
-		slogan : 'Get more data about your PC',
-		blocks : template,
-	});
+	try {
+		const template = require('./lib/templates/main');
+		res.render('index', {
+			title  : 'Cheetah Software',
+			slogan : 'Get more data about your PC',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+
+/**
+ * @summary Load section about hardware
+ */
+
+app.get('/hardware', async (req, res) => {
+	try {
+		const template = require('./lib/templates/hardware');
+		res.render('hardware', {
+			title  : 'Hardware',
+			slogan : 'Get data about hardware',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Load data about motherboard's characteristics
+ */
+
+app.get('/hardware/motherboard', async (req, res) => {
+	try {
+		const hardware = require('./lib/utils/hardware');
+		res.render('motherboard', {
+			title  : 'Motherboard',
+			slogan : 'Get system characteristics of motherboard',
+			data   : await hardware.motherboard(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Load data about motherboard's characteristics
+ */
+
+app.get('/hardware/bios', async (req, res) => {
+	try {
+		const hardware = require('./lib/utils/hardware');
+		res.render('bios', {
+			title  : 'BIOS',
+			slogan : 'Get info about BIOS',
+			data   : await hardware.bios(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
 });
 
 
@@ -78,12 +137,16 @@ app.get('/os', async (req, res) => {
  */
 
 app.get('/network', (req, res) => {
-	const template = require('./lib/templates/net');
-	res.render('network', {
-		title  : 'Network',
-		slogan : 'Get data about ip address, mask and etc.',
-		blocks : template,
-	});
+	try {
+		const template = require('./lib/templates/net');
+		res.render('network', {
+			title  : 'Network',
+			slogan : 'Get data about ip address, mask and etc.',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
 });
 
 
@@ -202,11 +265,6 @@ app.get('/disks/fs_stats', async (req, res) => {
 });
 
 
-app.get('/processor_info', (req, res) => {
-	const {NUMBER_OF_PROCESSORS, PROCESSOR_ARCHITECTURE, PROCESSOR_IDENTIFIER} = process.env;
-});
-
-
 /**
  * @summary render section about computer's memory
  */
@@ -320,6 +378,11 @@ app.get('/cpu/cpu_speed', async (req, res) => {
 	}
 });
 
+
+/**
+ * @summary Render section about Graphics
+ */
+
 app.get('/graphics', (req, res) => {
 	try {
 		const template = require('./lib/templates/graphics.js');
@@ -333,6 +396,10 @@ app.get('/graphics', (req, res) => {
 	}
 });
 
+
+/**
+ * @summary Get GPU's characteristics
+ */
 app.get('/graphics/gpu', async (req, res) => {
 	try {
 		const graphics = require('./lib/utils/graphics');
@@ -340,6 +407,24 @@ app.get('/graphics/gpu', async (req, res) => {
 			title  : 'GPU\'s Characteristics',
 			slogan : 'Find out what your graphics card is capable of',
 			data   : await graphics.controllersInfo(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Get Display's characteristics
+ */
+
+app.get('/graphics/display', async (req, res) => {
+	try {
+		const graphics = require('./lib/utils/graphics');
+		res.render('display', {
+			title  : 'Display\'s Characteristics',
+			slogan : 'Information about display (monitor)',
+			data   : await graphics.displaysInfo(),
 		});
 	} catch (e) {
 		console.error(e);
@@ -368,8 +453,10 @@ http.listen(8000, () => {
 	$$\\   $$ |$$ |  $$ |$$ |        $$ |$$\\ $$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|
 	\\$$$$$$  |\\$$$$$$  |$$ |        \\$$$$  |\\$$$$$\\$$$$  |\\$$$$$$$ |$$ |      \\$$$$$$$\\ 
 	 \\______/  \\______/ \\__|         \\____/  \\_____\\____/  \\_______|\\__|       \\_______|
+	
+	
+	Listen on: http://127.0.0.1:8000
+	           http://localhost:8000
 	`);
-	console.log(`Listen on: http://127.0.0.1:8000
-	   http://localhost:8000`);
 });
 

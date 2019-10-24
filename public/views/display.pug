@@ -1,0 +1,23 @@
+extends disk_layout
+
+block block_template
+    div(class='content')
+        p Vendor:
+            span #{item.vendor}
+        p Model:
+            span #{item.model}
+        p Connection:
+            span #{item.connection}
+        p Size in mm horizontal/vertical:
+            span #{item.sizex}/#{item.sizey}
+        p Size in px horizontal/vertical:
+            span #{item.currentResX}/#{item.currentResY}
+        p Color depth in bits:
+            span #{item.pixeldepth}
+        p Current refresh rate:
+            span #{item.currentRefreshRate}
+        if item.main
+            p(class='necessary_text') This is the main monitor
+        if item.builtin
+            p(class='necessary_text') This is built in monitor
+    img(src='../img/articles/display/cleaning_pc.svg' alt='Monitor')

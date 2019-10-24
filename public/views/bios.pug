@@ -1,0 +1,12 @@
+extends net_interface
+
+block detail_data
+    p Vendor:
+        span #{data.vendor}
+    p Release Date:
+        span #{data.releaseDate}
+    p Version:
+        span #{data.version}
+
+block article_img
+    img(src='../img/articles/motherboard/motherboard.svg' alt='Motherboard')

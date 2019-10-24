@@ -1,0 +1,13 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+
+ <title/>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#3f3c55" id="svg_1" d="m16,1a15,15 0 1 0 15,15a15,15 0 0 0 -15,-15zm0,28.33a13.33,13.33 0 1 1 13.33,-13.33a13.35,13.35 0 0 1 -13.33,13.33z" class="cls-1"/>
+  <text font-style="normal" font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="9" id="svg_4" y="19.118159" x="4.998634" stroke-opacity="null" stroke-width="7" stroke="null" fill="#3f3c55">BIOS</text>
+ </g>
+</svg>
