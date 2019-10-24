@@ -4,7 +4,33 @@
   "description": "Get more data about your PC",
   "main": "index.js",
   "keywords": [
-    "gepard"
+    "Cheetah",
+    "systemdata",
+    "sysinfo",
+    "systeminfo",
+    "pcinfo",
+    "computerinfo",
+    "node.js",
+    "javascript",
+    "express",
+    "websockets",
+    "socket.io",
+    "pug",
+    "nodemon",
+    "systeminformation",
+    "wmic",
+    "node-wmic",
+    "cheetah-software",
+    "eslint",
+    "ram",
+    "cpu",
+    "gpu",
+    "monitor",
+    "fs",
+    "disks",
+    "network",
+    "statistics",
+    "graphics"
   ],
   "author": "Artem Gusev <gusev2014russia@mail.ru> (CreativeRusBear)",
   "license": "MIT",
@@ -16,7 +42,7 @@
     "node-wmic": "^2.0.0",
     "pug": "^2.0.4",
     "socket.io": "^2.3.0",
-    "systeminformation": "^4.14.8"
+    "systeminformation": "^4.14.17"
   },
   "devDependencies": {
     "eslint": "^6.5.1",

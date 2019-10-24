@@ -45,12 +45,71 @@ app.use(express.static(`${__dirname}/public`));
  */
 
 app.get('/', (req, res) => {
-	const template = require('./lib/templates/main');
-	res.render('index', {
-		title  : 'Cheetah Software',
-		slogan : 'Get more data about your PC',
-		blocks : template,
-	});
+	try {
+		const template = require('./lib/templates/main');
+		res.render('index', {
+			title  : 'Cheetah Software',
+			slogan : 'Get more data about your PC',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+
+/**
+ * @summary Load section about hardware
+ */
+
+app.get('/hardware', async (req, res) => {
+	try {
+		const template = require('./lib/templates/hardware');
+		res.render('hardware', {
+			title  : 'Hardware',
+			slogan : 'Get data about hardware',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Load data about motherboard's characteristics
+ */
+
+app.get('/hardware/motherboard', async (req, res) => {
+	try {
+		const hardware = require('./lib/utils/hardware');
+		res.render('motherboard', {
+			title  : 'Motherboard',
+			slogan : 'Get system characteristics of motherboard',
+			data   : await hardware.motherboard(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+
+/**
+ * @summary Load data about motherboard's characteristics
+ */
+
+app.get('/hardware/bios', async (req, res) => {
+	try {
+		const hardware = require('./lib/utils/hardware');
+		res.render('bios', {
+			title  : 'BIOS',
+			slogan : 'Get info about BIOS',
+			data   : await hardware.bios(),
+		});
+	} catch (e) {
+		console.error(e);
+	}
 });
 
 
@@ -78,12 +137,16 @@ app.get('/os', async (req, res) => {
  */
 
 app.get('/network', (req, res) => {
-	const template = require('./lib/templates/net');
-	res.render('network', {
-		title  : 'Network',
-		slogan : 'Get data about ip address, mask and etc.',
-		blocks : template,
-	});
+	try {
+		const template = require('./lib/templates/net');
+		res.render('network', {
+			title  : 'Network',
+			slogan : 'Get data about ip address, mask and etc.',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
 });
 
 
@@ -199,11 +262,6 @@ app.get('/disks/fs_stats', async (req, res) => {
 	} catch (e) {
 		console.error(e);
 	}
-});
-
-
-app.get('/processor_info', (req, res) => {
-	const {NUMBER_OF_PROCESSORS, PROCESSOR_ARCHITECTURE, PROCESSOR_IDENTIFIER} = process.env;
 });
 
 

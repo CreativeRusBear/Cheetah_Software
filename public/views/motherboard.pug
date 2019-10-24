@@ -1,0 +1,14 @@
+extends net_interface
+
+block detail_data
+        p Manufacturer:
+            span #{data.manufacturer}
+        p Model:
+            span #{data.model}
+        p Serial number:
+            span #{data.serial}
+        p Version:
+            span #{data.version}
+
+block article_img
+    img(src='../img/articles/motherboard/motherboard.svg' alt='Motherboard')
