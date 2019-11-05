@@ -431,6 +431,25 @@ app.get('/graphics/display', async (req, res) => {
 	}
 });
 
+
+
+/**
+ * @summary Render section about CPU's load and running processes
+ */
+
+app.get('/graphs', (req, res) => {
+	try {
+		const template = require('./lib/templates/processes');
+		res.render('graphs', {
+			title  : 'Graphs',
+			slogan : 'See PC\'s peripheral indicators',
+			blocks : template,
+		});
+	} catch (e) {
+		console.error(e);
+	}
+});
+
 http.listen(8000, () => {
 
 	console.log(`
