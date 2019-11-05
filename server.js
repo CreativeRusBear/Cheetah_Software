@@ -28,6 +28,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const process = require('process');
 const path = require('path');
+const chalk = require('chalk');
 
 
 /**
@@ -450,9 +451,29 @@ app.get('/graphs', (req, res) => {
 	}
 });
 
+app.get('/graphs/cpu_load', async (req, res) => {
+	try {
+		const processes = require('./lib/utils/processes');
+		console.log(await processes.cpuLoad());
+		res.send('Hello world');
+	} catch (e) {
+		console.error(e);
+	}
+});
+
+app.get('/graphs/running_processes', async (req, res) => {
+	try {
+		const processes = require('./lib/utils/processes');
+		console.log(await processes.runningProcesses());
+		res.send('Hello world');
+	} catch (e) {
+		console.error(e);
+	}
+});
+
 http.listen(8000, () => {
 
-	console.log(`
+	console.log(chalk.cyan(`
 	 $$$$$$\\  $$\\                            $$\\               $$\\
 	$$  __$$\\ $$ |                           $$ |              $$ |            
 	$$ /  \\__|$$$$$$$\\   $$$$$$\\   $$$$$$\\ $$$$$$\\    $$$$$$\\  $$$$$$$\\        
@@ -472,10 +493,33 @@ http.listen(8000, () => {
 	$$\\   $$ |$$ |  $$ |$$ |        $$ |$$\\ $$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|
 	\\$$$$$$  |\\$$$$$$  |$$ |        \\$$$$  |\\$$$$$\\$$$$  |\\$$$$$$$ |$$ |      \\$$$$$$$\\ 
 	 \\______/  \\______/ \\__|         \\____/  \\_____\\____/  \\_______|\\__|       \\_______|
-	
-	
-	Listen on: http://127.0.0.1:8000
-	           http://localhost:8000
-	`);
+		
+                                                                                   
+                      ██                      
+            ██          ██                    
+          ██          ████                    
+          ██        ██████████                
+          ██████    ████████████              
+          ████████    ██████████        ██    
+        ██████████    ██████████          ██  
+        ██████████    ██████████        ████  
+        ████████████  ████████        ████████
+          ██████████    ████        ██████████
+  ██        ██████                  ██████████
+██                                ████████████
+██  ████                          ████████████
+██████████                          ████████  
+████████████          ██████████      ████    
+  ████████████      ██████████████            
+  ████████████    ██████████████████          
+    ██████████    ██████████████████████                   Listen on: http://127.0.0.1:8000
+      ██████      ████████████████████████                            http://localhost:8000
+                  ██████████████████████████  
+                ████████████████████████████  
+              ████████████████████████████    
+              ██████████████████████████      
+                ████████████████████          
+                  ██████████████                 
+	`));
 });
 

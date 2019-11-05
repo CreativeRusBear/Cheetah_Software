@@ -38,6 +38,8 @@
     "start": "nodemon server"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
+    "chart.js": "^2.9.2",
     "express": "^4.17.1",
     "node-wmic": "^2.0.0",
     "pug": "^2.0.4",
