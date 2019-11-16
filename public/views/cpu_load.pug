@@ -1,0 +1,19 @@
+extends templates/head_for_deep_file_location
+
+block title
+    title #{title}
+
+block content
+    include templates/header_for_deep_file_location
+    section(class='canvas_container')
+        canvas(id='cpuLoad' aria-label="CPU's Load" role="statistics" width='500' height='650')
+        div(class="cpus")
+            each val, index in data.cpus
+                p Core #{index+1}:
+                    span #{val.load.toFixed()} %
+    block script
+        script(src="/socket.io/socket.io.js")
+        script
+            include ../../node_modules/chart.js/dist/Chart.js
+        script(type='module')
+            include script/cpuLoad.js

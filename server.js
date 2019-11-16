@@ -454,8 +454,13 @@ app.get('/graphs', (req, res) => {
 app.get('/graphs/cpu_load', async (req, res) => {
 	try {
 		const processes = require('./lib/utils/processes');
-		console.log(await processes.cpuLoad());
-		res.send('Hello world');
+		const cpuLoad = io.of('/cpu_load');
+		res.render('cpu_load', {
+			title  : 'CPU current load',
+			slogan : 'Get CPU\'s usage statistics',
+			data   : await processes.cpuLoad(),
+		});
+		setInterval(async () => cpuLoad.emit('reload', await processes.cpuLoad()), 600);
 	} catch (e) {
 		console.error(e);
 	}
