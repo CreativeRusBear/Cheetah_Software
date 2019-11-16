@@ -460,7 +460,7 @@ app.get('/graphs/cpu_load', async (req, res) => {
 			slogan : 'Get CPU\'s usage statistics',
 			data   : await processes.cpuLoad(),
 		});
-		setInterval(async () => cpuLoad.emit('reload', await processes.cpuLoad()), 1000/45);
+		setInterval(async () => cpuLoad.emit('reload', await processes.cpuLoad()), 600);
 	} catch (e) {
 		console.error(e);
 	}

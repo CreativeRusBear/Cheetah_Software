@@ -20,6 +20,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: var(--standard-text-size);
 }
+
 header{
     padding: 16px 0 48px 0;
     display: flex;
@@ -27,17 +28,20 @@ header{
     align-items: center;
     background-color: var(--turquoise-color);
     color: var(--light-gray-color);
-
 }
+
 header h2{
     font-size: var(--title-size);
 }
+
 header p, section h3{
     font-size: var(--mark-text-size);
 }
+
 header img{
     width: 400px;
 }
+
 section {
     padding: 32px 0;
     background: #fff;
@@ -45,12 +49,12 @@ section {
     text-align: center;
 }
 
-
 .article{
     width: 30%;
     cursor: pointer;
     margin: 10vh auto;
 }
+
 .article img{
     width: 100%;
 }
@@ -67,7 +71,7 @@ p, span{
     text-align: left;
 }
 
-.info p, .detail_info p{
+.info p, .detail_info p. , .canvas_container .cpus p{
     line-height: 32px;
     display: flex;
     justify-content: space-between;
@@ -97,7 +101,7 @@ p, span{
     margin: auto;
 }
 
-.necessary_text{
+.necessary_text, .canvas_container .cpus{
     margin-top: 12px;
     font-size: var(--standard-text-size);
     font-weight: bold;
@@ -106,5 +110,13 @@ p, span{
 
 .canvas_container{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvas_container .cpus{
+    display: flex;
+    width: 100%;
     justify-content: space-around;
 }
