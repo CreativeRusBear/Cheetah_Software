@@ -32,7 +32,7 @@ on('body', 'click', '.article', e => {
 function on (elSelector, eventName, selector, fn) {
 	const element = document.querySelector(elSelector);
 
-	element.addEventListener(eventName, function (event) {
+	element.addEventListener(eventName,  event => {
 		const possibleTargets = element.querySelectorAll(selector);
 		const target = event.target;
 		possibleTargets.forEach(item => {
