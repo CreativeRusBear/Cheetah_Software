@@ -466,15 +466,25 @@ app.get('/graphs/cpu_load', async (req, res) => {
 	}
 });
 
-app.get('/graphs/running_processes', async (req, res) => {
+app.get('/graphs/running_processes', (req, res) => {
 	try {
-		const processes = require('./lib/utils/processes');
-		console.log(await processes.runningProcesses());
-		res.send('Hello world');
+		res.render('warning', {
+			title  : 'Running processes',
+			slogan : 'View information about running processes',
+		});
 	} catch (e) {
 		console.error(e);
 	}
 });
+
+// app.use((req, res) => {
+// 	try {
+// 		res.sendStatus(404);
+// 		res.render('404.pug');
+// 	} catch (e) {
+// 		console.error(e);
+// 	}
+// });
 
 http.listen(8000, () => {
 

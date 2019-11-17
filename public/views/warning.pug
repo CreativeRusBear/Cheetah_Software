@@ -1,0 +1,10 @@
+extends templates/head_for_deep_file_location
+
+block title
+    title #{title}
+
+block content
+    include templates/header_for_deep_file_location
+    section(class='article_container warning_block')
+        img(src="../img/articles/warning/warning.svg" width="50%")
+        h3 Sorry... But this page is under construction

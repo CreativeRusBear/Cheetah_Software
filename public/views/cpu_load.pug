@@ -13,7 +13,5 @@ block content
                     span #{val.load.toFixed()} %
     block script
         script(src="/socket.io/socket.io.js")
-        script
-            include ../../node_modules/chart.js/dist/Chart.js
         script(type='module')
             include script/cpuLoad.js
