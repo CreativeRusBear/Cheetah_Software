@@ -18,23 +18,47 @@
  * $$\   $$ |$$ |  $$ |$$ |        $$ |$$\ $$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|
  * \$$$$$$  |\$$$$$$  |$$ |        \$$$$  |\$$$$$\$$$$  |\$$$$$$$ |$$ |      \$$$$$$$\
  *  \______/  \______/ \__|         \____/  \_____\____/  \_______|\__|       \_______|
+ *
  */
 
-
+/**
+ * @author Artem Gusev <gusev2014russia@mail.ru> (CreativeRusBear)
+ * @copyright Artem Gusev 2019
+ * @licence
+ * MIT License
+ *
+ * Copyright (c) 2019 Artem Gusev
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const process = require('process');
 const path = require('path');
 const chalk = require('chalk');
 
 
 /**
- * @summary Pug settings
+ * @description Pug settings
  */
-
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/public/views'));
 
@@ -42,9 +66,8 @@ app.use(express.static(`${__dirname}/public`));
 
 
 /**
- * @summary load section for main page
+ * @description load section for main page
  */
-
 app.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/main');
@@ -61,10 +84,9 @@ app.get('/', (req, res) => {
 
 
 /**
- * @summary Load section about hardware
+ * @description Load section about hardware
  */
-
-app.get('/hardware', async (req, res) => {
+app.get('/hardware', (req, res) => {
 	try {
 		const template = require('./lib/templates/hardware');
 		res.render('hardware', {
@@ -79,9 +101,8 @@ app.get('/hardware', async (req, res) => {
 
 
 /**
- * @summary Load data about motherboard's characteristics
+ * @description Load data about motherboard's characteristics
  */
-
 app.get('/hardware/motherboard', async (req, res) => {
 	try {
 		const hardware = require('./lib/utils/hardware');
@@ -97,9 +118,8 @@ app.get('/hardware/motherboard', async (req, res) => {
 
 
 /**
- * @summary Load data about motherboard's characteristics
+ * @description Load data about motherboard's characteristics
  */
-
 app.get('/hardware/bios', async (req, res) => {
 	try {
 		const hardware = require('./lib/utils/hardware');
@@ -115,9 +135,8 @@ app.get('/hardware/bios', async (req, res) => {
 
 
 /**
- * @summary load data about your os
+ * @description load data about your os
  */
-
 app.get('/os', async (req, res) => {
 	try {
 		const osInfo = require('./lib/utils/os');
@@ -134,9 +153,8 @@ app.get('/os', async (req, res) => {
 
 
 /**
- * @summary load articles about network
+ * @description load articles about network
  */
-
 app.get('/network', (req, res) => {
 	try {
 		const template = require('./lib/templates/net');
@@ -152,9 +170,8 @@ app.get('/network', (req, res) => {
 
 
 /**
- * @summary load data about net interface
+ * @description load data about net interface
  */
-
 app.get('/network/net_interface', async (req, res) => {
 	try {
 		const netInfo = require('./lib/utils/net');
@@ -170,9 +187,8 @@ app.get('/network/net_interface', async (req, res) => {
 
 
 /**
- * @summary load network's stats
+ * @description load network's stats
  */
-
 app.get('/network/net_stats', async (req, res) => {
 	try {
 		const netInfo = require('./lib/utils/net');
@@ -192,9 +208,8 @@ app.get('/network/net_stats', async (req, res) => {
 
 
 /**
- * @summary load disks section
+ * @description load disks section
  */
-
 app.get('/disks', (req, res) => {
 	try {
 		const template = require('./lib/templates/disk');
@@ -210,9 +225,8 @@ app.get('/disks', (req, res) => {
 
 
 /**
- * @summary load data about physical disk layout
+ * @description load data about physical disk layout
  */
-
 app.get('/disks/disk_layout', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
@@ -228,9 +242,8 @@ app.get('/disks/disk_layout', async (req, res) => {
 
 
 /**
- * @summary load data about disks, partitions, raids and roms
+ * @description load data about disks, partitions, raids and roms
  */
-
 app.get('/disks/block_devices', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
@@ -246,9 +259,8 @@ app.get('/disks/block_devices', async (req, res) => {
 
 
 /**
- * @summary load data about current file systems
+ * @description load data about current file systems
  */
-
 app.get('/disks/fs_stats', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
@@ -267,9 +279,8 @@ app.get('/disks/fs_stats', async (req, res) => {
 
 
 /**
- * @summary render section about computer's memory
+ * @description render section about computer's memory
  */
-
 app.get('/ram', (req, res) => {
 	try {
 		const template = require('./lib/templates/ram');
@@ -285,9 +296,8 @@ app.get('/ram', (req, res) => {
 
 
 /**
- * @summary get data about memory
+ * @description get data about memory
  */
-
 app.get('/ram/mem_info', async (req, res) => {
 	try {
 		const mem = require('./lib/utils/ram');
@@ -303,9 +313,8 @@ app.get('/ram/mem_info', async (req, res) => {
 
 
 /**
- * @summary get ram's statistic
+ * @description get ram's statistic
  */
-
 app.get('/ram/mem_stats', async (req, res) => {
 	try {
 		const mem = require('./lib/utils/ram');
@@ -323,9 +332,8 @@ app.get('/ram/mem_stats', async (req, res) => {
 
 
 /**
- * @summary Render section about cpu
+ * @description Render section about cpu
  */
-
 app.get('/cpu', (req, res) => {
 	try {
 		const template = require('./lib/templates/cpu');
@@ -341,9 +349,8 @@ app.get('/cpu', (req, res) => {
 
 
 /**
- * @summary Get CPU's characteristics
+ * @description Get CPU's characteristics
  */
-
 app.get('/cpu/cpu_info', async (req, res) => {
 	try {
 		const cpu = require('./lib/utils/cpu');
@@ -361,9 +368,8 @@ app.get('/cpu/cpu_info', async (req, res) => {
 
 
 /**
- * @summary Get CPU's speed characteristics
+ * @description Get CPU's speed characteristics
  */
-
 app.get('/cpu/cpu_speed', async (req, res) => {
 	try {
 		const cpu = require('./lib/utils/cpu');
@@ -381,9 +387,8 @@ app.get('/cpu/cpu_speed', async (req, res) => {
 
 
 /**
- * @summary Render section about Graphics
+ * @description Render section about Graphics
  */
-
 app.get('/graphics', (req, res) => {
 	try {
 		const template = require('./lib/templates/graphics.js');
@@ -399,7 +404,7 @@ app.get('/graphics', (req, res) => {
 
 
 /**
- * @summary Get GPU's characteristics
+ * @description Get GPU's characteristics
  */
 app.get('/graphics/gpu', async (req, res) => {
 	try {
@@ -416,9 +421,8 @@ app.get('/graphics/gpu', async (req, res) => {
 
 
 /**
- * @summary Get Display's characteristics
+ * @description Get Display's characteristics
  */
-
 app.get('/graphics/display', async (req, res) => {
 	try {
 		const graphics = require('./lib/utils/graphics');
@@ -435,9 +439,8 @@ app.get('/graphics/display', async (req, res) => {
 
 
 /**
- * @summary Render section about CPU's load and running processes
+ * @description Render section about CPU's load and running processes
  */
-
 app.get('/graphs', (req, res) => {
 	try {
 		const template = require('./lib/templates/processes');
@@ -451,6 +454,9 @@ app.get('/graphs', (req, res) => {
 	}
 });
 
+/**
+ * @description Show CPU's usage statistics
+ */
 app.get('/graphs/cpu_load', async (req, res) => {
 	try {
 		const processes = require('./lib/utils/processes');
@@ -466,6 +472,9 @@ app.get('/graphs/cpu_load', async (req, res) => {
 	}
 });
 
+/**
+ * @description Show info about running processes
+ */
 app.get('/graphs/running_processes', (req, res) => {
 	try {
 		res.render('warning', {
@@ -477,14 +486,16 @@ app.get('/graphs/running_processes', (req, res) => {
 	}
 });
 
-// app.use((req, res) => {
-// 	try {
-// 		res.sendStatus(404);
-// 		res.render('404.pug');
-// 	} catch (e) {
-// 		console.error(e);
-// 	}
-// });
+/*
+ * App.use((req, res) => {
+ * 	try {
+ * 		res.sendStatus(404);
+ * 		res.render('404.pug');
+ * 	} catch (e) {
+ * 		console.error(e);
+ * 	}
+ * });
+ */
 
 http.listen(8000, () => {
 

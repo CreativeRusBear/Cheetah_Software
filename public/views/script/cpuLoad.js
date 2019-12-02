@@ -1,12 +1,17 @@
 import {Speedometer} from '../views/script/Speedometer.js';
 
 window.onload = () => {
+	/**
+	 * @description render speedometer
+	 */
 	const speedometer = new Speedometer('cpuLoad', 240);
 	speedometer.draw();
 
+	/**
+	 * @description set new data about CPU's load
+	 */
 	const socket = io('/cpu_load');
 	socket.on('reload', stats => {
-		console.log(stats);
 		if (speedometer) {
 			speedometer.val(stats.currentload);
 		}

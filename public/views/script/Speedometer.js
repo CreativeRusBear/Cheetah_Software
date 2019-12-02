@@ -1,4 +1,15 @@
+/**
+ * @class
+ * @description Draw speedometer creating on canvas and work in realtime
+ * @module /public/views/script/Speedometer
+ */
 class Speedometer {
+	/**
+	 * @constructor
+	 * @description Set starter values
+	 * @param {String} id - canvas's id
+	 * @param {Number} radius - speedometer's radius
+	 */
 	constructor (id, radius) {
 		this.canvas = document.getElementById(id);
 		this.ctx = this.canvas.getContext('2d');
@@ -17,7 +28,6 @@ class Speedometer {
 			digits : 'bold 24px sans-serif',
 			title  : 'bold 32px sans-serif',
 		};
-
 
 		/* Arrow settings*/
 		this.arrowValueIndex = 0;
@@ -39,7 +49,9 @@ class Speedometer {
 		this.stats = new Array(this.diagramWidth).fill(5);
 	}
 
-	/* Draw zones*/
+	/**
+	 * @description Set sizes for speedometer's zones. Also draw it, calling `drawZone` method
+	 */
 	drawZones () {
 		/* Zones' options*/
 		const sectionOptions = [ {
@@ -56,6 +68,10 @@ class Speedometer {
 		sectionOptions.forEach(options => this.drawZone(options));
 	}
 
+	/**
+	 * @description Draw speedometer's zone
+	 * @param {Object} options - necessary data for draw zone
+	 */
 	drawZone (options) {
 		this.ctx.beginPath();
 		this.ctx.arc(this.middleX, this.middleY, this.radius, options.startAngle, options.endAngle, false);
@@ -71,7 +87,9 @@ class Speedometer {
 		this.ctx.stroke();
 	}
 
-	/* Draw numbers*/
+	/**
+	 * @description Draw numbers around speedometer
+	 */
 	drawDigits () {
 		let angleIndex = this.startAngleIndex;
 		this.digits.forEach(digit => {
@@ -87,7 +105,9 @@ class Speedometer {
 		});
 	}
 
-	/* Draw arrow*/
+	/**
+	 * @description Draw arrow
+	 */
 	drawArrow () {
 		this.ctx.beginPath();
 		this.ctx.arc(this.middleX, this.middleY, 15, 0, 2*Math.PI);
@@ -100,6 +120,10 @@ class Speedometer {
 		this.ctx.fill();
 	}
 
+	/**
+	 * @description Rerender speedometer with new values
+	 * @param value - new value
+	 */
 	draw (value) {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -119,6 +143,10 @@ class Speedometer {
 		this.drawDiagram(value);
 	}
 
+	/**
+	 * @description Sets the required angle for the arrow based on the value obtained. Then call `draw` method.
+	 * @param value - current cpu's load
+	 */
 	val (value) {
 		const sector = Math.PI*0.385;
 		this.arrowValueIndex = value < 40
@@ -126,9 +154,19 @@ class Speedometer {
 			: (value-40)/60*sector*3 - sector;
 		this.draw(value);
 	}
+
+	/**
+	 * @description Draw text with value current cpu's load
+	 * @param val - current load
+	 */
 	drawTitle (val) {
 		this.ctx.fillText(`${val.toFixed()} %`, this.middleX, this.middleY*1.4);
 	}
+
+	/**
+	 * @description Draw diagram
+	 * @param val - new value
+	 */
 	drawDiagram (val) {
 		this.add(val);
 		this.ctx.fillStyle=this.palette.turquoiseColor;
@@ -144,6 +182,11 @@ class Speedometer {
 		if (val) { this.drawTitle(val); }
 
 	}
+
+	/**
+	 * @description forms an array for drawing a chart
+	 * @param x - new value
+	 */
 	add (x) {
 		this.stats.unshift(x);
 		this.stats = this.stats.slice(0, this.diagramWidth);

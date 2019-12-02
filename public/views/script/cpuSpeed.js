@@ -1,4 +1,8 @@
 const socket = io('/cpu_speed');
+
+/**
+ * @description get new information about CPU's speed and reload old data
+ */
 socket.on('reload', stats => {
 	const statsArr = Object.entries(stats);
 	for (let index = 0, length = statsArr.length; index < length; index++) {

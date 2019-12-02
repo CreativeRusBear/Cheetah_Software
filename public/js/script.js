@@ -10,29 +10,29 @@
 
 
 /**
- * @summary Нажатие на article
+ * @description Click on one of articles
  */
 on('body', 'click', '.article', e => {
 	const {id} = e.path.find(elem => elem.className === 'article');
-
 	/**
-	 * @summary is last char === '/'
+	 * @description is last char === '/'
 	 * @type {string}
 	 */
 	window.location.href += /\/+$/.test(window.location.href) ? id : `/${id}`;
 });
 
 /**
- * @param elSelector
- * @param eventName
- * @param selector
- * @param fn
- * @private
+ * @function
+ * @description Create custom event
+ * @param {String} elSelector - `body`
+ * @param {String} eventName - event name
+ * @param {String} selector - selector, that listen event
+ * @param {event} fn - event object
  */
 function on (elSelector, eventName, selector, fn) {
 	const element = document.querySelector(elSelector);
 
-	element.addEventListener(eventName,  event => {
+	element.addEventListener(eventName, event => {
 		const possibleTargets = element.querySelectorAll(selector);
 		const target = event.target;
 		possibleTargets.forEach(item => {
