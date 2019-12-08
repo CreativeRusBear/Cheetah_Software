@@ -41,7 +41,7 @@ This application is created using :bookmark_tabs: :
  * `JavaScript` - programming language;
  * `Node.js` - `JavaScript` runtime built. (An asynchronous event-driven `JavaScript` runtime, `Node.js` is designed to build scalable network applications);
  * `Express` - web-framework for work with `Node.js`'s applications;
- * `Soket.io` - library that enables real-time, bidirectional and event-based communication between the browser and the server.
+ * `Socket.io` - library that enables real-time, bidirectional and event-based communication between the browser and the server.
  
 ## Instructions :clipboard:
 
