@@ -1,6 +1,5 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/CreativeRusBear/Cheetah_Software)
 ![GitHub top language](https://img.shields.io/github/languages/top/CreativeRusBear/Cheetah_Software)
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/CreativeRusBear/Cheetah_Software)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/CreativeRusBear/Cheetah_Software)
 ![GitHub repo size](https://img.shields.io/github/repo-size/CreativeRusBear/Cheetah_Software)
 ![GitHub issues](https://img.shields.io/github/issues/CreativeRusBear/Cheetah_Software)
