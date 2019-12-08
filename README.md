@@ -8,6 +8,7 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/CreativeRusBear/Cheetah_Software)
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/CreativeRusBear/Cheetah_Software)
 ![GitHub](https://img.shields.io/github/license/CreativeRusBear/Cheetah_Software)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fcreativerusbear.github.io%2FCheetah_Software%2F)
 
 ```
                  ____     __                        __              __
@@ -53,6 +54,10 @@ This application is created using :bookmark_tabs: :
 ## License
 
 **Cheetah Software** is open-sourced software licensed under the MIT License (MIT). Please see [License File](LICENSE) for more information
+
+## Documentation
+
+You can find the Node Chat documentation [on the website](https://creativerusbear.github.io/Cheetah_Software/).
 
 ## Conclusion
 
