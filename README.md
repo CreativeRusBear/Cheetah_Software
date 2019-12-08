@@ -57,7 +57,7 @@ This application is created using :bookmark_tabs: :
 
 ## Documentation
 
-You can find the Node Chat documentation [on the website](https://creativerusbear.github.io/Cheetah_Software/).
+You can find the Cheetah Software documentation [on the website](https://creativerusbear.github.io/Cheetah_Software/).
 
 ## Conclusion
 
