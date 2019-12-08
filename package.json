@@ -40,6 +40,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "express": "^4.17.1",
+    "jsdoc": "^3.6.3",
     "node-wmic": "^2.0.0",
     "pug": "^2.0.4",
     "socket.io": "^2.3.0",
