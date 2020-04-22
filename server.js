@@ -27,7 +27,7 @@
  * @licence
  * MIT License
  *
- * Copyright (c) 2019 Artem Gusev
+ * Copyright (c) 2019-present Artem Gusev
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,6 @@ app.set('views', path.join(__dirname, '/public/views'));
 
 app.use(express.static(`${__dirname}/public`));
 
-
 /**
  * @description load section for main page
  */
@@ -82,11 +81,13 @@ app.get('/', (req, res) => {
 });
 
 
+const hardwareRouter = express.Router();
+app.use('/hardware', hardwareRouter);
 
 /**
  * @description Load section about hardware
  */
-app.get('/hardware', (req, res) => {
+hardwareRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/hardware');
 		res.render('hardware', {
@@ -99,11 +100,10 @@ app.get('/hardware', (req, res) => {
 	}
 });
 
-
 /**
  * @description Load data about motherboard's characteristics
  */
-app.get('/hardware/motherboard', async (req, res) => {
+hardwareRouter.get('/motherboard', async (req, res) => {
 	try {
 		const hardware = require('./lib/utils/hardware');
 		res.render('motherboard', {
@@ -120,7 +120,7 @@ app.get('/hardware/motherboard', async (req, res) => {
 /**
  * @description Load data about motherboard's characteristics
  */
-app.get('/hardware/bios', async (req, res) => {
+hardwareRouter.get('/bios', async (req, res) => {
 	try {
 		const hardware = require('./lib/utils/hardware');
 		res.render('bios', {
@@ -152,10 +152,13 @@ app.get('/os', async (req, res) => {
 });
 
 
+const networkRouter = express.Router();
+app.use('/network', networkRouter);
+
 /**
  * @description load articles about network
  */
-app.get('/network', (req, res) => {
+networkRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/net');
 		res.render('network', {
@@ -168,11 +171,10 @@ app.get('/network', (req, res) => {
 	}
 });
 
-
 /**
  * @description load data about net interface
  */
-app.get('/network/net_interface', async (req, res) => {
+networkRouter.get('/net_interface', async (req, res) => {
 	try {
 		const netInfo = require('./lib/utils/net');
 		res.render('net_interface', {
@@ -185,11 +187,10 @@ app.get('/network/net_interface', async (req, res) => {
 	}
 });
 
-
 /**
  * @description load network's stats
  */
-app.get('/network/net_stats', async (req, res) => {
+networkRouter.get('/net_stats', async (req, res) => {
 	try {
 		const netInfo = require('./lib/utils/net');
 		const net = io.of('/network_stats');
@@ -199,18 +200,20 @@ app.get('/network/net_stats', async (req, res) => {
 			slogan : 'Get data about current network stats',
 			data   : await netInfo.getStats(),
 		});
-		setInterval(async () =>
-			net.emit('network_stats', await netInfo.getStats()), 2500);
+		const interval = setInterval(async () =>
+			net.emit('network_stats', await netInfo.getStats()), 500);
 	} catch (e) {
 		console.error(e);
 	}
 });
 
+const diskRouter = express.Router();
+app.use('/disks', diskRouter);
 
 /**
  * @description load disks section
  */
-app.get('/disks', (req, res) => {
+diskRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/disk');
 		res.render('disks', {
@@ -223,11 +226,10 @@ app.get('/disks', (req, res) => {
 	}
 });
 
-
 /**
  * @description load data about physical disk layout
  */
-app.get('/disks/disk_layout', async (req, res) => {
+diskRouter.get('/disk_layout', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
 		res.render('disk_layout', {
@@ -240,11 +242,10 @@ app.get('/disks/disk_layout', async (req, res) => {
 	}
 });
 
-
 /**
  * @description load data about disks, partitions, raids and roms
  */
-app.get('/disks/block_devices', async (req, res) => {
+diskRouter.get('/block_devices', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
 		res.render('block_devices', {
@@ -257,11 +258,10 @@ app.get('/disks/block_devices', async (req, res) => {
 	}
 });
 
-
 /**
  * @description load data about current file systems
  */
-app.get('/disks/fs_stats', async (req, res) => {
+diskRouter.get('/fs_stats', async (req, res) => {
 	try {
 		const disksInfo = require('./lib/utils/disks');
 		const fsData = io.of('/fs_stats');
@@ -270,18 +270,20 @@ app.get('/disks/fs_stats', async (req, res) => {
 			slogan : 'Get current transfer stats of your disks',
 			data   : await disksInfo.fsInfo(),
 		});
-		setInterval(async () =>
-			fsData.emit('fs_data', await disksInfo.fsInfo()), 2500);
+		const interval = setInterval(async () =>
+			fsData.emit('fs_data', await disksInfo.fsInfo()), 500);
 	} catch (e) {
 		console.error(e);
 	}
 });
 
+const ramRouter = express.Router();
+app.use('/ram', ramRouter);
 
 /**
  * @description render section about computer's memory
  */
-app.get('/ram', (req, res) => {
+ramRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/ram');
 		res.render('ram', {
@@ -294,11 +296,10 @@ app.get('/ram', (req, res) => {
 	}
 });
 
-
 /**
  * @description get data about memory
  */
-app.get('/ram/mem_info', async (req, res) => {
+ramRouter.get('/mem_info', async (req, res) => {
 	try {
 		const mem = require('./lib/utils/ram');
 		res.render('mem_info', {
@@ -311,11 +312,10 @@ app.get('/ram/mem_info', async (req, res) => {
 	}
 });
 
-
 /**
  * @description get ram's statistic
  */
-app.get('/ram/mem_stats', async (req, res) => {
+ramRouter.get('/mem_stats', async (req, res) => {
 	try {
 		const mem = require('./lib/utils/ram');
 		const memStats = io.of('/mem_stats');
@@ -324,17 +324,19 @@ app.get('/ram/mem_stats', async (req, res) => {
 			slogan : 'Get RAM statistic',
 			data   : await mem.memStats(),
 		});
-		setInterval(async () => memStats.emit('reload', await mem.memStats()), 2500);
+		const interval = setInterval(async () => memStats.emit('reload', await mem.memStats()), 500);
 	} catch (e) {
 		console.error(e);
 	}
 });
 
+const cpuRouter = express.Router();
+app.use('/cpu', cpuRouter);
 
 /**
  * @description Render section about cpu
  */
-app.get('/cpu', (req, res) => {
+cpuRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/cpu');
 		res.render('cpu', {
@@ -347,11 +349,10 @@ app.get('/cpu', (req, res) => {
 	}
 });
 
-
 /**
  * @description Get CPU's characteristics
  */
-app.get('/cpu/cpu_info', async (req, res) => {
+cpuRouter.get('/cpu_info', async (req, res) => {
 	try {
 		const cpu = require('./lib/utils/cpu');
 		const cpuInfo = io.of('/cpu_info');
@@ -360,17 +361,16 @@ app.get('/cpu/cpu_info', async (req, res) => {
 			slogan : 'Find out what your processor is capable of',
 			data   : await cpu.cpuInfo(),
 		});
-		setInterval(async () => cpuInfo.emit('reload', await cpu.cpuInfo()), 2500);
+		const interval = setInterval(async () => cpuInfo.emit('reload', await cpu.cpuInfo()), 500);
 	} catch (e) {
 		console.error(e);
 	}
 });
 
-
 /**
  * @description Get CPU's speed characteristics
  */
-app.get('/cpu/cpu_speed', async (req, res) => {
+cpuRouter.get('/cpu_speed', async (req, res) => {
 	try {
 		const cpu = require('./lib/utils/cpu');
 		const speed = io.of('/cpu_speed');
@@ -379,17 +379,19 @@ app.get('/cpu/cpu_speed', async (req, res) => {
 			slogan : 'Get real-time processor speed statistics',
 			data   : await cpu.cpuSpeed(),
 		});
-		setInterval(async () => speed.emit('reload', await cpu.cpuSpeed()), 2500);
+		const interval = val(async () => speed.emit('reload', await cpu.cpuSpeed()), 2500);
 	} catch (e) {
 		console.error(e);
 	}
 });
 
+const gpuRouter = express.Router();
+app.use('/graphics', gpuRouter);
 
 /**
  * @description Render section about Graphics
  */
-app.get('/graphics', (req, res) => {
+gpuRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/graphics.js');
 		res.render('graphics', {
@@ -402,11 +404,10 @@ app.get('/graphics', (req, res) => {
 	}
 });
 
-
 /**
  * @description Get GPU's characteristics
  */
-app.get('/graphics/gpu', async (req, res) => {
+gpuRouter.get('/gpu', async (req, res) => {
 	try {
 		const graphics = require('./lib/utils/graphics');
 		res.render('gpu', {
@@ -419,11 +420,10 @@ app.get('/graphics/gpu', async (req, res) => {
 	}
 });
 
-
 /**
  * @description Get Display's characteristics
  */
-app.get('/graphics/display', async (req, res) => {
+gpuRouter.get('/display', async (req, res) => {
 	try {
 		const graphics = require('./lib/utils/graphics');
 		res.render('display', {
@@ -436,12 +436,13 @@ app.get('/graphics/display', async (req, res) => {
 	}
 });
 
-
+const graphRouter = express.Router();
+app.use('/graphs', graphRouter);
 
 /**
  * @description Render section about CPU's load and running processes
  */
-app.get('/graphs', (req, res) => {
+graphRouter.get('/', (req, res) => {
 	try {
 		const template = require('./lib/templates/processes');
 		res.render('graphs', {
@@ -457,7 +458,7 @@ app.get('/graphs', (req, res) => {
 /**
  * @description Show CPU's usage statistics
  */
-app.get('/graphs/cpu_load', async (req, res) => {
+graphRouter.get('/cpu_load', async (req, res) => {
 	try {
 		const processes = require('./lib/utils/processes');
 		const cpuLoad = io.of('/cpu_load');
@@ -466,7 +467,7 @@ app.get('/graphs/cpu_load', async (req, res) => {
 			slogan : 'Get CPU\'s usage statistics',
 			data   : await processes.cpuLoad(),
 		});
-		setInterval(async () => cpuLoad.emit('reload', await processes.cpuLoad()), 600);
+		const interval = setInterval(async () => cpuLoad.emit('reload', await processes.cpuLoad()), 500);
 	} catch (e) {
 		console.error(e);
 	}
@@ -475,7 +476,7 @@ app.get('/graphs/cpu_load', async (req, res) => {
 /**
  * @description Show info about running processes
  */
-app.get('/graphs/running_processes', (req, res) => {
+graphRouter.get('/running_processes', (req, res) => {
 	try {
 		res.render('warning', {
 			title  : 'Running processes',
