@@ -76,7 +76,7 @@ app.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -96,7 +96,7 @@ hardwareRouter.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -105,14 +105,14 @@ hardwareRouter.get('/', (req, res) => {
  */
 hardwareRouter.get('/motherboard', async (req, res) => {
 	try {
-		const hardware = require('./lib/utils/hardware');
+		const motherboardInfo = await require('./lib/utils/hardware').motherboard();
 		res.render('motherboard', {
 			title  : 'Motherboard',
 			slogan : 'Get system characteristics of motherboard',
-			data   : await hardware.motherboard(),
+			data   : motherboardInfo,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -122,14 +122,14 @@ hardwareRouter.get('/motherboard', async (req, res) => {
  */
 hardwareRouter.get('/bios', async (req, res) => {
 	try {
-		const hardware = require('./lib/utils/hardware');
+		const biosInfo = await require('./lib/utils/hardware').bios();
 		res.render('bios', {
 			title  : 'BIOS',
 			slogan : 'Get info about BIOS',
-			data   : await hardware.bios(),
+			data   : biosInfo,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -139,15 +139,14 @@ hardwareRouter.get('/bios', async (req, res) => {
  */
 app.get('/os', async (req, res) => {
 	try {
-		const osInfo = require('./lib/utils/os');
-		const data = await osInfo.generalInfo();
+		const osInfo = await require('./lib/utils/os').generalInfo();
 		res.render('os', {
 			title  : 'OS',
 			slogan : 'Get data about your operating system',
-			data,
+			data   : osInfo,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -167,7 +166,7 @@ networkRouter.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -183,7 +182,7 @@ networkRouter.get('/net_interface', async (req, res) => {
 			data   : await netInfo.netInterface(),
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -203,7 +202,7 @@ networkRouter.get('/net_stats', async (req, res) => {
 		const interval = setInterval(async () =>
 			net.emit('network_stats', await netInfo.getStats()), 500);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -222,7 +221,7 @@ diskRouter.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -231,14 +230,14 @@ diskRouter.get('/', (req, res) => {
  */
 diskRouter.get('/disk_layout', async (req, res) => {
 	try {
-		const disksInfo = require('./lib/utils/disks');
+		const diskStructure = await require('./lib/utils/disks').physicalDiskStructure();
 		res.render('disk_layout', {
 			title  : 'Disks Layout',
 			slogan : 'Get data about physical disk layout',
-			data   : await disksInfo.physicalDiskStructure(),
+			data   : diskStructure,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -247,14 +246,14 @@ diskRouter.get('/disk_layout', async (req, res) => {
  */
 diskRouter.get('/block_devices', async (req, res) => {
 	try {
-		const disksInfo = require('./lib/utils/disks');
+		const dprr = await require('./lib/utils/disks').dprrInfo();
 		res.render('block_devices', {
 			title  : 'Disks, partitions, raids and roms',
 			slogan : 'Get data about disks, partitions, raids and roms',
-			data   : await disksInfo.dprrInfo(),
+			data   : dprr,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -273,7 +272,7 @@ diskRouter.get('/fs_stats', async (req, res) => {
 		const interval = setInterval(async () =>
 			fsData.emit('fs_data', await disksInfo.fsInfo()), 500);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -292,7 +291,7 @@ ramRouter.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -301,14 +300,14 @@ ramRouter.get('/', (req, res) => {
  */
 ramRouter.get('/mem_info', async (req, res) => {
 	try {
-		const mem = require('./lib/utils/ram');
+		const memoryInfo = await require('./lib/utils/ram').memInfo();
 		res.render('mem_info', {
 			title  : 'Memories Information',
 			slogan : 'Get information about PC\'s memories',
-			data   : await mem.memInfo(),
+			data   : memoryInfo,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -326,7 +325,7 @@ ramRouter.get('/mem_stats', async (req, res) => {
 		});
 		const interval = setInterval(async () => memStats.emit('reload', await mem.memStats()), 500);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -345,7 +344,7 @@ cpuRouter.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -363,7 +362,7 @@ cpuRouter.get('/cpu_info', async (req, res) => {
 		});
 		const interval = setInterval(async () => cpuInfo.emit('reload', await cpu.cpuInfo()), 500);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -379,9 +378,9 @@ cpuRouter.get('/cpu_speed', async (req, res) => {
 			slogan : 'Get real-time processor speed statistics',
 			data   : await cpu.cpuSpeed(),
 		});
-		const interval = val(async () => speed.emit('reload', await cpu.cpuSpeed()), 2500);
+		const interval = setInterval(async () => speed.emit('reload', await cpu.cpuSpeed()), 500);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -409,14 +408,14 @@ gpuRouter.get('/', (req, res) => {
  */
 gpuRouter.get('/gpu', async (req, res) => {
 	try {
-		const graphics = require('./lib/utils/graphics');
+		const controllers = await require('./lib/utils/graphics').controllersInfo();
 		res.render('gpu', {
 			title  : 'GPU\'s Characteristics',
 			slogan : 'Find out what your graphics card is capable of',
-			data   : await graphics.controllersInfo(),
+			data   : controllers,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -425,14 +424,14 @@ gpuRouter.get('/gpu', async (req, res) => {
  */
 gpuRouter.get('/display', async (req, res) => {
 	try {
-		const graphics = require('./lib/utils/graphics');
+		const displays = await require('./lib/utils/graphics').displaysInfo();
 		res.render('display', {
 			title  : 'Display\'s Characteristics',
 			slogan : 'Information about display (monitor)',
-			data   : await graphics.displaysInfo(),
+			data   : displays
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -451,7 +450,7 @@ graphRouter.get('/', (req, res) => {
 			blocks : template,
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -469,7 +468,7 @@ graphRouter.get('/cpu_load', async (req, res) => {
 		});
 		const interval = setInterval(async () => cpuLoad.emit('reload', await processes.cpuLoad()), 500);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
@@ -483,7 +482,7 @@ graphRouter.get('/running_processes', (req, res) => {
 			slogan : 'View information about running processes',
 		});
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 });
 
